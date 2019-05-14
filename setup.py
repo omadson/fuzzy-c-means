@@ -15,7 +15,7 @@ def read(filename):
 
 setup(
     name="fuzzy-c-means",
-    version="0.0.1",
+    version="0.0.3",
     url="https://github.com/omadson/fuzzy-c-means",
     license='MIT',
 

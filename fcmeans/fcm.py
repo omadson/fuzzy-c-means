@@ -18,7 +18,7 @@ class FCM:
 
         # u = np.random.dirichlet(np.ones(C), size=N)
         u = np.random.rand(N,C)
-        u = u / np.tile(a.sum(axis=1)[np.newaxis].T,C)
+        u = u / np.tile(u.sum(axis=1)[np.newaxis].T,C)
 
         iteration = 0
         while iteration < self.max_iter:
