@@ -7,15 +7,13 @@ from setuptools import setup
 
 
 def read(filename):
-    filename = os.path.join(os.path.dirname(__file__), filename)
-    text_type = type(u"")
-    with io.open(filename, mode="r", encoding='utf-8') as fd:
-        return re.sub(text_type(r':[a-z]+:`~?(.*?)`'), text_type(r'``\1``'), fd.read())
+    with open(filename, "r") as fh:
+        return fh.read()
 
 
 setup(
     name="fuzzy-c-means",
-    version="0.0.3",
+    version="0.0.4",
     url="https://github.com/omadson/fuzzy-c-means",
     license='MIT',
 
@@ -23,11 +21,15 @@ setup(
     author_email="madsonddias@gmail.com",
 
     description="A simple implementation of Fuzzy C-means algorithm.",
-    long_description=read("README.rst"),
+    long_description=read("README.md"),
+    long_description_content_type="text/markdown",
 
     packages=find_packages(exclude=('tests',)),
 
-    install_requires=[],
+    install_requires=[
+        'numpy>=1.15.4',
+        'scipy>=1.1.0'
+    ],
 
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
