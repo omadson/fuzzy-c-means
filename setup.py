@@ -1,7 +1,3 @@
-import io
-import os
-import re
-
 from setuptools import find_packages
 from setuptools import setup
 
@@ -13,7 +9,7 @@ def read(filename):
 
 setup(
     name="fuzzy-c-means",
-    version="0.0.4",
+    version="0.0.5",
     url="https://github.com/omadson/fuzzy-c-means",
     license='MIT',
 

@@ -2,7 +2,6 @@ import numpy as np
 from scipy.linalg import norm
 from scipy.spatial.distance import cdist
 
-
 class FCM:
     def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5):
         self.u, self.centers = None, None

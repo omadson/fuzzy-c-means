@@ -1,4 +1,4 @@
-# scikit-mlm
+# fuzzy-c-means
 
 ![GitHub](https://img.shields.io/github/license/omadson/fuzzy-c-means.svg)
 [![PyPI](https://img.shields.io/pypi/v/fuzzy-c-means.svg)](http://pypi.org/project/fuzzy-c-means/)
