@@ -3,12 +3,13 @@ from scipy.linalg import norm
 from scipy.spatial.distance import cdist
 
 class FCM:
-    def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5):
+    def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42):
         self.u, self.centers = None, None
         self.n_clusters = n_clusters
         self.max_iter = max_iter
         self.m = m
         self.error = error
+        self.random_state = random_state
 
     def fit(self, X):
         N = X.shape[0]
@@ -16,7 +17,8 @@ class FCM:
         centers = []
 
         # u = np.random.dirichlet(np.ones(C), size=N)
-        u = np.random.rand(N,C)
+        r = np.random.RandomState(self.random_state)
+        u = r.rand(N,C)
         u = u / np.tile(u.sum(axis=1)[np.newaxis].T,C)
 
         iteration = 0

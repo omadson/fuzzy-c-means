@@ -9,7 +9,7 @@ def read(filename):
 
 setup(
     name="fuzzy-c-means",
-    version="0.0.5",
+    version="0.0.6",
     url="https://github.com/omadson/fuzzy-c-means",
     license='MIT',
 
