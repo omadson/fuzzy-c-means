@@ -70,7 +70,6 @@ class FCM:
         <https://doi.org/10.1016/0098-3004(84)90020-7>`_
 
     """
-    
     def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42):
         self.u, self.centers = None, None
         self.n_clusters = n_clusters
@@ -87,10 +86,14 @@ class FCM:
         X : array-like, shape = [n_samples, n_features]
             Training instances to cluster.
         """
-        n_samples = X.shape[0]
+        self.n_samples = X.shape[0]
+        # u = np.random.dirichlet(np.ones(C), size=N)
+        r = np.random.RandomState(self.random_state)
+        u = r.rand(self.n_samples,self.n_clusters)
+        u = u / np.tile(u.sum(axis=1)[np.newaxis].T,self.n_clusters)
 
         r = np.random.RandomState(self.random_state)
-        self.u = r.rand(n_samples,self.n_clusters)
+        self.u = r.rand(self.n_samples,self.n_clusters)
         self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T,self.n_clusters)
 
         for iteration in range(self.max_iter):
