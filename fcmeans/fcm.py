@@ -53,14 +53,14 @@ class FCM:
     
     Methods
     -------
-    fit(X=None)
-        Prints the animals name and what sound it makes
+    fit(X)
+        fit the data
 
-    _predict(X=None)
-        Prints the animals name and what sound it makes
+    _predict(X)
+        use fitted model and output cluster memberships
 
-    predict(X=None)
-        Prints the animals name and what sound it makes
+    predict(X)
+        use fitted model and output 1 cluster for each sample
 
     References
     ----------
@@ -71,6 +71,7 @@ class FCM:
 
     """
     def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42):
+        assert m > 1
         self.u, self.centers = None, None
         self.n_clusters = n_clusters
         self.max_iter = max_iter
@@ -89,12 +90,12 @@ class FCM:
         self.n_samples = X.shape[0]
         # u = np.random.dirichlet(np.ones(C), size=N)
         r = np.random.RandomState(self.random_state)
-        u = r.rand(self.n_samples,self.n_clusters)
-        u = u / np.tile(u.sum(axis=1)[np.newaxis].T,self.n_clusters)
+        u = r.rand(self.n_samples, self.n_clusters)
+        u = u / np.tile(u.sum(axis=1)[np.newaxis].T, self.n_clusters)
 
         r = np.random.RandomState(self.random_state)
         self.u = r.rand(self.n_samples,self.n_clusters)
-        self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T,self.n_clusters)
+        self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T, self.n_clusters)
 
         for iteration in range(self.max_iter):
             u_old = self.u.copy()
@@ -106,7 +107,6 @@ class FCM:
             if norm(self.u - u_old) < self.error:
                 break
 
-        return self
 
     def next_centers(self, X):
         """Update cluster centers"""
