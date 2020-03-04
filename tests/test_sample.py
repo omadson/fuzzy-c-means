@@ -1,4 +1,10 @@
-# Sample Test passing with nose and pytest
+import unittest
+import numpy as np
 
-def test_pass():
-    assert True, "dummy sample test"
+class TestMethods(unittest.TestCase):
+    def test_fcm():
+        # some test data
+        X = np.random.normal(size=(10, 2))
+        fcm = FCM()
+        fcm.fit(X)
+        self.assertTrue(fcm.u is not None)
