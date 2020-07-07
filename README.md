@@ -61,6 +61,10 @@ if you use `fuzzy-c-means` package in your paper, please cite it in your publica
 }
 ```
 
+### citations
+ - [Gene-Based Clustering Algorithms: Comparison Between Denclue, Fuzzy-C, and BIRCH](https://doi.org/10.1177/1177932220909851)
+
+
 ## contributing
 
 this project is open for contributions. here are some of the ways for you to contribute:
@@ -72,6 +76,7 @@ to make a contribution, just fork this repository, push the changes in your fork
 
 ## contributors
  - [Madson Dias](https://github.com/omadson)
+ - [Dirk Nachbar](https://github.com/dirknbr)
 
 [1]: https://doi.org/10.1016/0098-3004(84)90020-7
 [2]: http://scikit-learn.org/
