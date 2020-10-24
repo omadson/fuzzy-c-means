@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "fcmeans"
+version = "1.0.0"
+description = ""
+authors = ["Madson Dias <madsonddias@gmail.com>", "dirk <https://github.com/dirknbr>", "José Alberth <jalberth14@gmail.com>"]
+
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/omadson/fuzzy-c-means"
+repository = "https://github.com/omadson/fuzzy-c-means"
+keywords = ["machine-learning", "data-science", "fuzzy-c-means", "clustering"]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+numpy = "^1.19.2"
+
+[tool.poetry.dev-dependencies]
+jupyterlab = "^2.2.8"
+scipy = "^1.5.3"
+matplotlib = "^3.3.2"
+sklearn = "^0.0"
+seaborn = "^0.11.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

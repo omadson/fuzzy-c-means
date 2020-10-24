@@ -3,6 +3,7 @@ tests/
 
 # C extensions
 *.so
+.ipynb_checkpoints/
 
 # Packages
 *.egg

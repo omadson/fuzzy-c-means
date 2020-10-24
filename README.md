@@ -78,6 +78,7 @@ to make a contribution, just fork this repository, push the changes in your fork
 ## contributors
  - [Madson Dias](https://github.com/omadson)
  - [Dirk Nachbar](https://github.com/dirknbr)
+ - [Alberth Florêncio](https://github.com/zealberth)
 
 [1]: https://doi.org/10.1016/0098-3004(84)90020-7
 [2]: http://scikit-learn.org/
