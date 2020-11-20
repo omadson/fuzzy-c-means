@@ -5,6 +5,7 @@
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/omadson/fuzzy-c-means.svg)](https://github.com/omadson/fuzzy-c-means/pulse)
 [![GitHub last commit](https://img.shields.io/github/last-commit/omadson/fuzzy-c-means.svg)](https://github.com/omadson/fuzzy-c-means/commit/master)
 [![Downloads](https://pepy.tech/badge/fuzzy-c-means)](https://pepy.tech/project/fuzzy-c-means)
+[![DOI](https://zenodo.org/badge/186457481.svg)](https://zenodo.org/badge/latestdoi/186457481)
 
 
 `fuzzy-c-means` is a Python module implementing the [Fuzzy C-means][1] clustering algorithm.
@@ -53,12 +54,14 @@ plt.show()
 ## how to cite fuzzy-c-means package
 if you use `fuzzy-c-means` package in your paper, please cite it in your publication.
 ```
-@misc{fuzzy-c-means,
-    author       = "Madson Luiz Dantas Dias",
-    year         = "2019",
-    title        = "fuzzy-c-means: An implementation of Fuzzy $C$-means clustering algorithm.",
-    url          = "https://github.com/omadson/fuzzy-c-means",
-    institution  = "Federal University of Cear\'{a}, Department of Computer Science" 
+@software{dias2019fuzzy,
+  author       = {Madson Luiz Dantas Dias},
+  title        = {fuzzy-c-means: An implementation of Fuzzy $C$-means clustering algorithm.},
+  month        = may,
+  year         = 2019,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.3066222},
+  url          = {https://git.io/fuzzy-c-means}
 }
 ```
 
@@ -82,8 +85,3 @@ to make a contribution, just fork this repository, push the changes in your fork
 
 [1]: https://doi.org/10.1016/0098-3004(84)90020-7
 [2]: http://scikit-learn.org/
-
-
-
-
-
