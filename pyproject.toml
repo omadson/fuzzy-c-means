@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fcmeans"
-version = "1.0.0"
+version = "1.0.1"
 description = ""
 authors = ["Madson Dias <madsonddias@gmail.com>", "dirk <https://github.com/dirknbr>", "José Alberth <jalberth14@gmail.com>"]
 
