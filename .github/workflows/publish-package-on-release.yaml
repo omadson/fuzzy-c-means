@@ -1,0 +1,25 @@
+name: Publish package
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  build:
+    name: Publish package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:         
+          python-version: '3.8'
+      - name: Install dependencies
+        run: |
+          pip install poetry poetry-dynamic-versioning
+      - name: Publish package on pypi
+        run: |
+          poetry build
+          poetry publish -u ${{ secrets.PYPI_USERNAME }} -p ${{ secrets.PYPI_PASSWORD }}
