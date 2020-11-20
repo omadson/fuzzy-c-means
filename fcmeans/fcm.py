@@ -1,6 +1,4 @@
 import numpy as np
-from scipy.linalg import norm
-from scipy.spatial.distance import cdist
 
 class FCM:
     """Fuzzy C-means
@@ -104,7 +102,7 @@ class FCM:
             self.u = self._predict(X)
 
             # Stopping rule
-            if norm(self.u - u_old) < self.error:
+            if np.linalg.norm(self.u - u_old) < self.error:
                 break
 
 
@@ -128,7 +126,7 @@ class FCM:
 
         """
         power = float(2 / (self.m - 1))
-        temp = cdist(X, self.centers) ** power
+        temp = np.sqrt(np.einsum('ijk->ij',(X[:,None,:] - self.centers)**2)) ** power
         denominator_ = temp.reshape((X.shape[0], 1, -1)).repeat(temp.shape[-1], axis=1)
         denominator_ = temp[:, :, np.newaxis] / denominator_
 
