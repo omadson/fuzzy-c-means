@@ -22,6 +22,7 @@ python = "^3.8"
 numpy = "^1.19.2"
 
 [tool.poetry.dev-dependencies]
+jupyterlab = "^2.2.9"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
