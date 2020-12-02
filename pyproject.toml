@@ -30,6 +30,7 @@ jaxlib = "^0.1.57"
 [tool.poetry.dev-dependencies]
 jupyterlab = "^2.2.9"
 Pillow = "^8.0.1"
+matplotlib = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
