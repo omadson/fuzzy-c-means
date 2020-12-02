@@ -16,40 +16,53 @@ the `fuzzy-c-means` package is available in [PyPI](https://pypi.org/project/fuzz
 pip install fuzzy-c-means
 ```
 
-## basic usage
-simple example of use the `fuzzy-c-means` to cluster a dataset in tree groups:
+## basic clustering example
+simple example of use the `fuzzy-c-means` to cluster a dataset in two groups:
+
+### importing libraries
 ```Python
 %matplotlib inline
-
+import numpy as np
 from fcmeans import FCM
-from sklearn.datasets import make_blobs
 from matplotlib import pyplot as plt
+```
 
+### creating artificial data set
+```Python
+n_samples = 3000
 
-# create artifitial dataset
-n_samples = 5000
-n_bins = 3  # use 3 bins for calibration_curve as we have 3 clusters here
-centers = [(-5, -5), (0, 0), (5, 5)]
+X = np.concatenate((
+    np.random.normal((-2, -2), size=(n_samples, 2)),
+    np.random.normal((2, 2), size=(n_samples, 2))
+))
+```
 
-X,_ = make_blobs(n_samples=n_samples, n_features=2, cluster_std=1.5,
-                  centers=centers, shuffle=False, random_state=42)
-
-# fit the fuzzy-c-means
-fcm = FCM(n_clusters=3)
+### fitting the fuzzy-c-means
+```Python
+fcm = FCM(n_clusters=2)
 fcm.fit(X)
+```
 
+### showing results
+```Python
 # outputs
 fcm_centers = fcm.centers
-fcm_labels  = fcm.u.argmax(axis=1)
-
+fcm_labels = fcm.predict(X)
 
 # plot result
 f, axes = plt.subplots(1, 2, figsize=(11,5))
 axes[0].scatter(X[:,0], X[:,1], alpha=.1)
 axes[1].scatter(X[:,0], X[:,1], c=fcm_labels, alpha=.1)
-axes[1].scatter(fcm_centers[:,0], fcm_centers[:,1], marker="s", s=100, c='white')
+axes[1].scatter(fcm_centers[:,0], fcm_centers[:,1], marker="+", s=500, c='w')
+plt.savefig('images/basic-clustering-output.jpg')
 plt.show()
 ```
+<div align="center">
+    <img src="examples/images/basic-clustering-output.jpg">
+</div>
+
+to more examples, see the [examples/](https://github.com/omadson/fuzzy-c-means/tree/master/examples) folder.
+
 
 ## how to cite fuzzy-c-means package
 if you use `fuzzy-c-means` package in your paper, please cite it in your publication.
