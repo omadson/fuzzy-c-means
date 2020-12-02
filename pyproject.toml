@@ -19,10 +19,12 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.8"
-numpy = "^1.19.2"
+jax = "^0.2.6"
+jaxlib = "^0.1.57"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^2.2.9"
+Pillow = "^8.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]

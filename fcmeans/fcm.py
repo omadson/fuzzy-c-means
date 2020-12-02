@@ -1,4 +1,7 @@
-import numpy as np
+from jax import numpy as np
+from jax import random
+from jax import jit
+
 
 class FCM:
     """Fuzzy C-means
@@ -45,9 +48,6 @@ class FCM:
         containing the coordinates of each cluster center. The number of
         columns in centers is equal to the dimensionality of the data being
         clustered.
-
-    r: 
-    Container for the Mersenne Twister pseudo-random number generator.
     
     Methods
     -------
@@ -75,7 +75,7 @@ class FCM:
         self.max_iter = max_iter
         self.m = m
         self.error = error
-        self.random_state = random_state
+        self.key = random.PRNGKey(random_state)
 
     def fit(self, X):
         """Compute fuzzy C-means clustering.
@@ -86,32 +86,17 @@ class FCM:
             Training instances to cluster.
         """
         self.n_samples = X.shape[0]
-        # u = np.random.dirichlet(np.ones(C), size=N)
-        r = np.random.RandomState(self.random_state)
-        u = r.rand(self.n_samples, self.n_clusters)
-        u = u / np.tile(u.sum(axis=1)[np.newaxis].T, self.n_clusters)
-
-        r = np.random.RandomState(self.random_state)
-        self.u = r.rand(self.n_samples,self.n_clusters)
+        self.u = random.uniform(key=self.key, shape=(self.n_samples,self.n_clusters))
         self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T, self.n_clusters)
-
         for iteration in range(self.max_iter):
             u_old = self.u.copy()
-
-            self.centers = self.next_centers(X)
-            self.u = self._predict(X)
-
+            self.centers = FCM._next_centers(X, self.u, self.m)
+            self.u = self.__predict(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
 
-
-    def next_centers(self, X):
-        """Update cluster centers"""
-        um = self.u ** self.m
-        return (X.T @ um / np.sum(um, axis=0)).T
-
-    def _predict(self, X):
+    def __predict(self, X):
         """ 
         Parameters
         ----------
@@ -123,13 +108,10 @@ class FCM:
         u: array, shape = [n_samples, n_clusters]
             Fuzzy partition array, returned as an array with n_samples rows
             and n_clusters columns.
-
         """
-        power = float(2 / (self.m - 1))
-        temp = np.sqrt(np.einsum('ijk->ij',(X[:,None,:] - self.centers)**2)) ** power
+        temp = FCM._dist(X, self.centers) ** float(2 / (self.m - 1))
         denominator_ = temp.reshape((X.shape[0], 1, -1)).repeat(temp.shape[-1], axis=1)
         denominator_ = temp[:, :, np.newaxis] / denominator_
-
         return 1 / denominator_.sum(2)
 
     def predict(self, X):
@@ -144,11 +126,21 @@ class FCM:
         -------
         labels : array, shape = [n_samples,]
             Index of the cluster each sample belongs to.
-
         """
+        X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
+        return self.__predict(X).argmax(axis=-1)
+    
+    @staticmethod
+    @jit
+    def _dist(A, B):
+        """ Compute the euclidean distance two matrices """
+        return np.sqrt(np.einsum('ijk->ij',(A[:,None,:] - B)**2))
 
-        if len(X.shape) == 1:
-            X = np.expand_dims(X, axis=0)
+    @staticmethod
+    @jit    
+    def _next_centers(X, u, m):
+        """ Update cluster centers """
+        um = u ** m
+        return (X.T @ um / np.sum(um, axis=0)).T
 
-        u = self._predict(X)
-        return np.argmax(u, axis=-1)
+
