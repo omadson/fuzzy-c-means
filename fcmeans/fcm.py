@@ -94,8 +94,8 @@ class FCM:
             self.u = self.__predict(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
-                break
-
+                break    
+    
     def __predict(self, X):
         """ 
         Parameters
@@ -142,5 +142,13 @@ class FCM:
         """ Update cluster centers """
         um = u ** m
         return (X.T @ um / np.sum(um, axis=0)).T
+    
+    # partition coefficient (Equation 12a of https://doi.org/10.1016/0098-3004(84)90020-7)
+    @property
+    def partition_coefficient(self):
+        if hasattr(self, 'u'):
+            return np.sum(self.u ** 2) / self.n_samples
+        else:
+            raise ReferenceError("You need to train the model first. You can use `.fit()` method to this.")
 
 
