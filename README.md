@@ -58,7 +58,7 @@ plt.savefig('images/basic-clustering-output.jpg')
 plt.show()
 ```
 <div align="center">
-    <img src="examples/images/basic-clustering-output.jpg">
+    <img src="https://raw.githubusercontent.com/omadson/fuzzy-c-means/master/examples/images/basic-clustering-output.jpg">
 </div>
 
 to more examples, see the [examples/](https://github.com/omadson/fuzzy-c-means/tree/master/examples) folder.
