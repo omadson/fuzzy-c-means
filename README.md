@@ -80,6 +80,7 @@ if you use `fuzzy-c-means` package in your paper, please cite it in your publica
 
 ### citations
  - [Gene-Based Clustering Algorithms: Comparison Between Denclue, Fuzzy-C, and BIRCH](https://doi.org/10.1177/1177932220909851)
+ - [Analisis Data Log IDS Snort dengan Algoritma Clustering Fuzzy C-Means](https://doi.org/10.24843/MITE.2020.v19i01.P14)
 
 
 ## contributing
