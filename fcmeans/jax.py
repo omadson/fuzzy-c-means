@@ -5,7 +5,6 @@ from jax import jit
 
 class FCM:
     """Fuzzy C-means
-    
     Parameters
     ----------
     n_clusters: int, optional (default=10)
@@ -48,7 +47,7 @@ class FCM:
         containing the coordinates of each cluster center. The number of
         columns in centers is equal to the dimensionality of the data being
         clustered.
-    
+
     Methods
     -------
     fit(X)
@@ -68,6 +67,7 @@ class FCM:
         <https://doi.org/10.1016/0098-3004(84)90020-7>`_
 
     """
+
     def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42):
         assert m > 1
         self.u, self.centers = None, None
@@ -86,18 +86,20 @@ class FCM:
             Training instances to cluster.
         """
         self.n_samples = X.shape[0]
-        self.u = random.uniform(key=self.key, shape=(self.n_samples,self.n_clusters))
-        self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T, self.n_clusters)
+        self.u = random.uniform(key=self.key, shape=(
+            self.n_samples, self.n_clusters))
+        self.u = self.u / np.tile(self.u.sum(axis=1)
+                                  [np.newaxis].T, self.n_clusters)
         for iteration in range(self.max_iter):
             u_old = self.u.copy()
             self.centers = FCM._next_centers(X, self.u, self.m)
             self.u = self.__predict(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
-                break    
-    
+                break
+
     def __predict(self, X):
-        """ 
+        """
         Parameters
         ----------
         X : array, shape = [n_samples, n_features]
@@ -110,13 +112,14 @@ class FCM:
             and n_clusters columns.
         """
         temp = FCM._dist(X, self.centers) ** float(2 / (self.m - 1))
-        denominator_ = temp.reshape((X.shape[0], 1, -1)).repeat(temp.shape[-1], axis=1)
+        denominator_ = temp.reshape(
+            (X.shape[0], 1, -1)).repeat(temp.shape[-1], axis=1)
         denominator_ = temp[:, :, np.newaxis] / denominator_
         return 1 / denominator_.sum(2)
 
     def predict(self, X):
         """Predict the closest cluster each sample in X belongs to.
-        
+
         Parameters
         ----------
         X : array, shape = [n_samples, n_features]
@@ -129,33 +132,35 @@ class FCM:
         """
         X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
         return self.__predict(X).argmax(axis=-1)
-    
+
     @staticmethod
     @jit
     def _dist(A, B):
-        """ Compute the euclidean distance two matrices """
-        return np.sqrt(np.einsum('ijk->ij',(A[:,None,:] - B)**2))
+        """Compute the euclidean distance two matrices"""
+        return np.sqrt(np.einsum("ijk->ij", (A[:, None, :] - B) ** 2))
 
     @staticmethod
-    @jit    
+    @jit
     def _next_centers(X, u, m):
-        """ Update cluster centers """
+        """Update cluster centers"""
         um = u ** m
         return (X.T @ um / np.sum(um, axis=0)).T
-    
+
     # partition coefficient (Equation 12a of https://doi.org/10.1016/0098-3004(84)90020-7)
     @property
     def partition_coefficient(self):
-        if hasattr(self, 'u'):
+        if hasattr(self, "u"):
             return np.sum(self.u ** 2) / self.n_samples
         else:
-            raise ReferenceError("You need to train the model first. You can use `.fit()` method to this.")
-    
+            raise ReferenceError(
+                "You need to train the model first. You can use `.fit()` method to this."
+            )
+
     @property
     def partition_entropy_coefficient(self):
-        if hasattr(self, 'u'):
+        if hasattr(self, "u"):
             return -np.sum(self.u * np.log2(self.u)) / self.n_samples
         else:
-            raise ReferenceError("You need to train the model first. You can use `.fit()` method to this.")
-
-
+            raise ReferenceError(
+                "You need to train the model first. You can use `.fit()` method to this."
+            )
