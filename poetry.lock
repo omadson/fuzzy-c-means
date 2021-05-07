@@ -3,7 +3,7 @@ name = "absl-py"
 version = "0.12.0"
 description = "Abseil Python Common Libraries, see https://github.com/abseil/abseil-py."
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 
 [package.dependencies]
@@ -262,7 +262,7 @@ name = "flatbuffers"
 version = "1.12"
 description = "The FlatBuffers serialization format for Python"
 category = "main"
-optional = true
+optional = false
 python-versions = "*"
 
 [[package]]
@@ -347,7 +347,7 @@ name = "jax"
 version = "0.2.13"
 description = "Differentiate, compile, and transform Numpy code."
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -369,7 +369,7 @@ name = "jaxlib"
 version = "0.1.65"
 description = "XLA library for JAX"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.6"
 
 [package.dependencies]
@@ -767,7 +767,7 @@ name = "opt-einsum"
 version = "3.3.0"
 description = "Optimizing numpys einsum function"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.5"
 
 [package.dependencies]
@@ -1033,7 +1033,7 @@ name = "scipy"
 version = "1.6.1"
 description = "SciPy: Scientific Library for Python"
 category = "main"
-optional = true
+optional = false
 python-versions = ">=3.7"
 
 [package.dependencies]
@@ -1192,13 +1192,13 @@ optional = true
 python-versions = "*"
 
 [extras]
-examples = ["jupyterlab", "scikit-learn", "Pillow", "matplotlib"]
-jax = ["jax", "jaxlib"]
+examples = ["jupyterlab", "scikit-learn", "Pillow", "matplotlib", "numpy"]
+windows = ["numpy"]
 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "1d87e18a6ae31f08b05d08b04419e6261670d98a72acf823e7245e74fb76c1a2"
+content-hash = "4c9ea22ff9bc73f88926791013fa11330b37e14e81c1c9e59810ce757b30bfd4"
 
 [metadata.files]
 absl-py = [
