@@ -10,7 +10,7 @@
 
 `fuzzy-c-means` is a Python module implementing the [Fuzzy C-means][1] clustering algorithm.
 
-## instalation
+## installation
 the `fuzzy-c-means` package is available in [PyPI](https://pypi.org/project/fuzzy-c-means/). to install, simply type the following command:
 ```
 pip install fuzzy-c-means
@@ -19,6 +19,12 @@ by default, the `fuzzy-c-means` uses [jax](https://github.com/google/jax) librar
 ```
 pip install fuzzy-c-means[windows]
 ```
+### command line interface
+if you prefer, you can install the command line interface so that you can use the library without having to program. To install, just use the command:
+```
+pip install fuzzy-c-means[cli]
+```
+You can read the [CLI.md](https://github.com/omadson/fuzzy-c-means/blob/master/CLI.md) file for more information about this tool.
 
 ## running examples
 
