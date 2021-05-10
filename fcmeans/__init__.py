@@ -1,2 +1,7 @@
 """fuzzy-c-means - A simple implementation of Fuzzy C-means algorithm."""
-from .jax import FCM
+import platform
+
+if platform.system() in ['Linux', 'Darwin']:
+    from ._jax import FCM
+else:
+    from ._numpy import FCM
