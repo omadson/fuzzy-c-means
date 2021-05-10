@@ -1,6 +1,4 @@
-from jax import numpy as np
-from jax import random
-from jax import jit
+import numpy as np
 
 
 class FCM:
@@ -68,14 +66,16 @@ class FCM:
 
     """
 
-    def __init__(self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42):
+    def __init__(
+        self, n_clusters=10, max_iter=150, m=2, error=1e-5, random_state=42
+    ):
         assert m > 1
         self.u, self.centers = None, None
         self.n_clusters = n_clusters
         self.max_iter = max_iter
         self.m = m
         self.error = error
-        self.key = random.PRNGKey(random_state)
+        self.rng = np.random.default_rng(random_state)
 
     def fit(self, X):
         """Compute fuzzy C-means clustering.
@@ -86,8 +86,7 @@ class FCM:
             Training instances to cluster.
         """
         self.n_samples = X.shape[0]
-        self.u = random.uniform(key=self.key, shape=(
-            self.n_samples, self.n_clusters))
+        self.u = self.rng.uniform(size=(self.n_samples, self.n_clusters))
         self.u = self.u / np.tile(self.u.sum(axis=1)
                                   [np.newaxis].T, self.n_clusters)
         for iteration in range(self.max_iter):
@@ -134,13 +133,11 @@ class FCM:
         return self.__predict(X).argmax(axis=-1)
 
     @staticmethod
-    @jit
     def _dist(A, B):
         """Compute the euclidean distance two matrices"""
         return np.sqrt(np.einsum("ijk->ij", (A[:, None, :] - B) ** 2))
 
     @staticmethod
-    @jit
     def _next_centers(X, u, m):
         """Update cluster centers"""
         um = u ** m
@@ -153,7 +150,8 @@ class FCM:
             return np.sum(self.u ** 2) / self.n_samples
         else:
             raise ReferenceError(
-                "You need to train the model first. You can use `.fit()` method to this."
+                "You need to train the model first. You can use `.fit()` "
+                "method to this."
             )
 
     @property
@@ -162,5 +160,6 @@ class FCM:
             return -np.sum(self.u * np.log2(self.u)) / self.n_samples
         else:
             raise ReferenceError(
-                "You need to train the model first. You can use `.fit()` method to this."
+                "You need to train the model first. You can use `.fit()` "
+                "method to this."
             )
