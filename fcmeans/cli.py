@@ -3,17 +3,17 @@ Fuzzy C-means
 
 Fit and use fuzzy-c-means models to clustering.
 
-You probably want to install completion for the typer command:
+You probably want to install completion for the typer command.
+If you are using bash, try to type:
 
-$ fcm --install-completion
+$ fcm --install-completion bash
 
 https://github.com/omadson/fuzzy-c-means
 """
 import time
+import pickle
 from pathlib import Path
-import joblib
 from enum import Enum
-import webbrowser
 
 import typer
 import numpy as np
@@ -64,7 +64,7 @@ def _predict(data, model):
 def _read_data(dataset_path, delimiter, quiet):
     typer.echo()
     if not quiet:
-        typer.echo('Reading data set...')
+        typer.echo('Reading data set... ', nl=False)
     X = np.genfromtxt(dataset_path, delimiter=delimiter)
     # Check file read
     if not np.all(X):
@@ -114,23 +114,24 @@ def fit(
         False, "--predict", '-p', help="Prediction flag."),
 ):
     """Train and save a fuzzy-c-means model given a dataset."""
-    X = read_data(dataset_path, delimiter, quiet)
+    X = _read_data(dataset_path, delimiter, quiet)
     model = FCM(n_clusters, max_iter, m, error, random_state)
     if not quiet:
-        typer.echo('Training model...')
+        typer.echo('Training model... ', nl=False)
     start_time = time.time()
     try:
         model.fit(X)
     except Exception as e:
         typer.echo(
-            '\nError: There was an error in the fitting step. Try \'fcm manual\' for help.')
+            '\nError: There was an error in the fitting step.')
         typer.echo(
             'If the problem continues, create an issue at: https://github.com/omadson/fuzzy-c-means/issues')
         raise typer.Abort()
     if not quiet:
         typer.echo('Model trained without errors...')
     elapsed_time = (time.time() - start_time)*1000
-    joblib.dump(model, model_path)
+    with open(model_path, 'wb') as file:
+        pickle.dump(model, file)
     if not quiet:
         headers = ['Variable', 'Value']
         table = [
@@ -148,13 +149,6 @@ def fit(
 
 
 @app.command()
-def manual():
-    """Open the documentation page."""
-    webbrowser.open(
-        'https://github.com/omadson/fuzzy-c-means/blob/master/CLI.md')
-
-
-@app.command()
 def predict(
     dataset_path: Path = typer.Argument(
         "dataset.csv", help="Data set file path (only .csv).", dir_okay=False, exists=True, callback=input_path_callback),
@@ -165,15 +159,16 @@ def predict(
     model_path: Path = typer.Argument(
         "model.sav", help="Path to save the created model.", dir_okay=False, exists=True)
 ):
-    """Predict labels given a data set and a saved model."""
+    """Predict labels given a data set and a fuzzy-c-means saved model."""
     X = _read_data(dataset_path, delimiter, quiet)
     if not quiet:
-        typer.echo('Reading model...')
+        typer.echo('Reading model... ', nl=False)
     try:
-        model = joblib.load(model_path)
+        with open(model_path, 'rb') as file:
+            model = pickle.load(file)
     except Exception as e:
         typer.echo(
-            'Error: Something wrong with your models. Try \'fcm manual\' for help.')
+            'Error: Something wrong with your models.')
         raise typer.Abort()
     if not quiet:
         typer.echo('Model loaded without errors...')
