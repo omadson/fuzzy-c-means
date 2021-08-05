@@ -1,19 +1,20 @@
-# `dsb`
+# `fcm`
 
 Fuzzy C-means
 
 Fit and use fuzzy-c-means models to clustering.
 
-You probably want to install completion for the typer command:
+You probably want to install completion for the typer command.
+If you are using bash, try to type:
 
-$ fcm --install-completion
+$ fcm --install-completion bash
 
 https://github.com/omadson/fuzzy-c-means
 
 **Usage**:
 
 ```console
-$ dsb [OPTIONS] COMMAND [ARGS]...
+$ fcm [OPTIONS] COMMAND [ARGS]...
 ```
 
 **Options**:
@@ -25,17 +26,16 @@ $ dsb [OPTIONS] COMMAND [ARGS]...
 **Commands**:
 
 * `fit`: Train and save a fuzzy-c-means model given a...
-* `manual`: Open the documentation page.
-* `predict`: Predict labels given a data set and a saved...
+* `predict`: Predict labels given a data set and a...
 
-## `dsb fit`
+## `fcm fit`
 
 Train and save a fuzzy-c-means model given a dataset.
 
 **Usage**:
 
 ```console
-$ dsb fit [OPTIONS] [DATASET_PATH] [MODEL_PATH]
+$ fcm fit [OPTIONS] [DATASET_PATH] [MODEL_PATH]
 ```
 
 **Arguments**:
@@ -55,28 +55,14 @@ $ dsb fit [OPTIONS] [DATASET_PATH] [MODEL_PATH]
 * `-p, --predict`: Prediction flag.  [default: False]
 * `--help`: Show this message and exit.
 
-## `dsb manual`
+## `fcm predict`
 
-Open the documentation page.
-
-**Usage**:
-
-```console
-$ dsb manual [OPTIONS]
-```
-
-**Options**:
-
-* `--help`: Show this message and exit.
-
-## `dsb predict`
-
-Predict labels given a data set and a saved model.
+Predict labels given a data set and a fuzzy-c-means saved model.
 
 **Usage**:
 
 ```console
-$ dsb predict [OPTIONS] [DATASET_PATH] [MODEL_PATH]
+$ fcm predict [OPTIONS] [DATASET_PATH] [MODEL_PATH]
 ```
 
 **Arguments**:
