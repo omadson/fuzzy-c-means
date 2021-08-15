@@ -92,12 +92,12 @@ class FCM:
         for iteration in range(self.max_iter):
             u_old = self.u.copy()
             self.centers = FCM._next_centers(X, self.u, self.m)
-            self.u = self.__predict(X)
+            self.u = self.predict_with_likelihood(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
 
-    def __predict(self, X):
+    def predict_with_likelihood(self, X):
         """
         Parameters
         ----------
@@ -108,7 +108,7 @@ class FCM:
         -------
         u: array, shape = [n_samples, n_clusters]
             Fuzzy partition array, returned as an array with n_samples rows
-            and n_clusters columns.
+            and n_clusters columns, sum of each sample is 1.
         """
         temp = FCM._dist(X, self.centers) ** float(2 / (self.m - 1))
         denominator_ = temp.reshape(
@@ -130,7 +130,7 @@ class FCM:
             Index of the cluster each sample belongs to.
         """
         X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
-        return self.__predict(X).argmax(axis=-1)
+        return self.predict_with_likelihood(X).argmax(axis=-1)
 
     @staticmethod
     def _dist(A, B):
