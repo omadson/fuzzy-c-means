@@ -1,0 +1,42 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyCompatibilityInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ourVersions">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="3.8" />
+            <item index="1" class="java.lang.String" itemvalue="3.9" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="19">
+            <item index="0" class="java.lang.String" itemvalue="requests" />
+            <item index="1" class="java.lang.String" itemvalue="protobuf" />
+            <item index="2" class="java.lang.String" itemvalue="decorator" />
+            <item index="3" class="java.lang.String" itemvalue="networkx" />
+            <item index="4" class="java.lang.String" itemvalue="python-dateutil" />
+            <item index="5" class="java.lang.String" itemvalue="kiwisolver" />
+            <item index="6" class="java.lang.String" itemvalue="ortools" />
+            <item index="7" class="java.lang.String" itemvalue="cycler" />
+            <item index="8" class="java.lang.String" itemvalue="pandas" />
+            <item index="9" class="java.lang.String" itemvalue="PyWavelets" />
+            <item index="10" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="11" class="java.lang.String" itemvalue="pytz" />
+            <item index="12" class="java.lang.String" itemvalue="pyparsing" />
+            <item index="13" class="java.lang.String" itemvalue="xlrd" />
+            <item index="14" class="java.lang.String" itemvalue="Pillow" />
+            <item index="15" class="java.lang.String" itemvalue="setuptools" />
+            <item index="16" class="java.lang.String" itemvalue="Flask-RESTful" />
+            <item index="17" class="java.lang.String" itemvalue="Flask" />
+            <item index="18" class="java.lang.String" itemvalue="python-telegram-bot" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

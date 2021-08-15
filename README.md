@@ -65,7 +65,7 @@ fcm.fit(X)
 ```Python
 # outputs
 fcm_centers = fcm.centers
-fcm_labels = fcm.predict(X)
+fcm_labels = fcm.hard_predict(X)
 
 # plot result
 f, axes = plt.subplots(1, 2, figsize=(11,5))

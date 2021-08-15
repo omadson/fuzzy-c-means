@@ -58,7 +58,7 @@ def delimiter_callback(value: str):
 
 
 def _predict(data, model):
-    return model.predict(data)
+    return model.hard_predict(data)
 
 
 def _read_data(dataset_path, delimiter, quiet):
@@ -80,7 +80,7 @@ def _read_data(dataset_path, delimiter, quiet):
 
 
 def _model_predict(model, X, dataset_path, delimiter, quiet):
-    labels = model.predict(X)
+    labels = model.hard_predict(X)
     new_file_name = dataset_path.with_suffix('.labels.csv')
     if new_file_name.exists():
         typer.confirm(
