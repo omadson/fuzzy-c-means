@@ -101,12 +101,12 @@ class FCM:
         for iteration in range(self.max_iter):
             u_old = self.u.copy()
             self.centers = FCM._next_centers(X, self.u, self.m)
-            self.u = self.__predict(X)
+            self.u = self.soft_predict(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
 
-    def __predict(self, X):
+    def soft_predict(self, X):
         """
         Parameters
         ----------
@@ -125,7 +125,7 @@ class FCM:
         denominator_ = temp[:, :, np.newaxis] / denominator_
         return 1 / denominator_.sum(2)
 
-    def predict(self, X):
+    def hard_predict(self, X):
         """Predict the closest cluster each sample in X belongs to.
 
         Parameters
@@ -139,7 +139,7 @@ class FCM:
             Index of the cluster each sample belongs to.
         """
         X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
-        return self.__predict(X).argmax(axis=-1)
+        return self.soft_predict(X).argmax(axis=-1)
 
     @staticmethod
     @jit
