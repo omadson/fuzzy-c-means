@@ -26,6 +26,7 @@ packages = [
 python = "^3.8"
 jax = "^0.2.7"
 jaxlib = "^0.1.65"
+joblib = "^1.0.1"
 numpy = {version = "^1.20.2", optional = true}
 jupyterlab = {version = "^3.0.14", optional = true}
 scikit-learn = {version = "^0.24.2", optional = true}
