@@ -15,24 +15,24 @@ the `fuzzy-c-means` package is available in [PyPI](https://pypi.org/project/fuzz
 ```
 pip install fuzzy-c-means
 ```
-by default, the `fuzzy-c-means` uses [jax](https://github.com/google/jax) library, which only works on Linux systems. If you are a Windows user, try to install using:
+<!-- by default, the `fuzzy-c-means` uses [jax](https://github.com/google/jax) library, which only works on Linux systems. If you are a Windows user, try to install using:
 ```
 pip install fuzzy-c-means[windows]
-```
+``` -->
 ### command line interface
-if you prefer, you can install the command line interface so that you can use the library without having to program. To install, just use the command:
+<!-- if you prefer, you can install the command line interface so that you can use the library without having to program. To install, just use the command:
 ```
 pip install fuzzy-c-means[cli]
-```
+``` -->
 You can read the [CLI.md](https://github.com/omadson/fuzzy-c-means/blob/master/CLI.md) file for more information about this tool.
 
-## running examples
+<!-- ## running examples
 
 If you want to run the examples on [examples/](https://github.com/omadson/fuzzy-c-means/tree/master/examples) folder, try to install the extra dependencies.
 
 ```
 pip install fuzzy-c-means[examples]
-```
+``` -->
 
 ### basic clustering example
 simple example of use the `fuzzy-c-means` to cluster a dataset in two groups:
