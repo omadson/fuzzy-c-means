@@ -115,7 +115,7 @@ def fit(
 ):
     """Train and save a fuzzy-c-means model given a dataset."""
     X = _read_data(dataset_path, delimiter, quiet)
-    model = FCM(n_clusters, max_iter, m, error, random_state)
+    model = FCM(n_clusters=n_clusters, max_iter=max_iter, m=m, error=error, random_state=random_state)
     if not quiet:
         typer.echo('Training model... ', nl=False)
     start_time = time.time()

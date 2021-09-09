@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 from pydantic import BaseModel, Extra, Field, validate_arguments
 
@@ -9,7 +11,7 @@ class FCM(BaseModel):
     max_iter: int = Field(150, ge=1, le=1000)
     m: float = Field(2.0, ge=1.0)
     error: float = Field(1e-5, ge=1e-9)
-    random_state: int = 42
+    random_state: Optional[int] = None
     trained: bool = Field(False, const=True)
 
     class Config:
