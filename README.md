@@ -102,6 +102,7 @@ if you use `fuzzy-c-means` package in your paper, please cite it in your publica
  - [Comparative Analysis between the k-means and Fuzzy c-means Algorithms to Detect UDP Flood DDoS Attack on a SDN/NFV Environment](https://doi.org/10.5220/0010176201050112)
  - [Mixture-of-Experts Variational Autoencoder for Clustering and Generating from Similarity-Based Representations on Single Cell Data](https://arxiv.org/abs/1910.07763)
  - [Fuzzy Clustering: an Application to Distributional Reinforcement Learning](https://doi.org/10.34726/hss.2021.86783)
+ - [Fuzzy Clustering with Similarity Queries](https://arxiv.org/pdf/2106.02212.pdf)
 
 
 ## contributing and support
