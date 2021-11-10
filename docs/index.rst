@@ -6,6 +6,8 @@
 Welcome to fuzzy-c-means's documentation!
 =========================================
 
+It's just a test.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
