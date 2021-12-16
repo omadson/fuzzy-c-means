@@ -6,6 +6,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/omadson/fuzzy-c-means.svg)](https://github.com/omadson/fuzzy-c-means/commit/master)
 [![Downloads](https://pepy.tech/badge/fuzzy-c-means)](https://pepy.tech/project/fuzzy-c-means)
 [![DOI](https://zenodo.org/badge/186457481.svg)](https://zenodo.org/badge/latestdoi/186457481)
+[![Lines of code](https://img.shields.io/tokei/lines/github/omadson/fuzzy-c-means)](https://github.com/omadson/fuzzy-c-means)
 
 
 `fuzzy-c-means` is a Python module implementing the [Fuzzy C-means][1] clustering algorithm.
