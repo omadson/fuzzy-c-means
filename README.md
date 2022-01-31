@@ -105,6 +105,7 @@ if you use `fuzzy-c-means` package in your paper, please cite it in your publica
  - [Fuzzy Clustering: an Application to Distributional Reinforcement Learning](https://doi.org/10.34726/hss.2021.86783)
  - [Fuzzy Clustering with Similarity Queries](https://arxiv.org/pdf/2106.02212.pdf)
  - [Robust Representation and Efficient Feature Selection Allows for Effective Clustering of SARS-CoV-2 Variants](https://arxiv.org/abs/2110.09622)
+ - [Unsupervised clustering-based spectral analysis of bio-dyed textile samples](http://urn.fi/urn:nbn:fi:uef-20211291)
 
 
 ## contributing and support
