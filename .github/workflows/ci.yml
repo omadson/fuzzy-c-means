@@ -1,0 +1,42 @@
+name: CI
+
+on: [pull_request]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+    - uses: snok/install-poetry@v1
+      with:
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+    - run: poetry install
+
+  tests:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: snok/install-poetry@v1
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+    - run: poetry run pytest --cov=fcmeans . --cov-fail-under=50
+
+  linter:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v2
+    - uses: snok/install-poetry@v1
+    - uses: syphar/restore-virtualenv@v1
+      id: cache-virtualenv
+    - run: |
+        poetry run black . --line-length=79
+        poetry run isort **/*.py -c
+        poetry run flake8 --exclude ".*"

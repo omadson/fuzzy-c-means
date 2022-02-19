@@ -1,10 +1,67 @@
 repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.4.0
-      hooks:
-        - id: check-added-large-files
-        - id: end-of-file-fixer
-    - repo: https://github.com/pre-commit/mirrors-autopep8
-      rev: 'v1.5.7'
-      hooks:
-        - id: autopep8
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.4.0
+    hooks:
+      - id: check-ast
+      - id: check-byte-order-marker
+      - id: check-case-conflict
+      - id: check-docstring-first
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+      - id: check-added-large-files
+
+-   repo: https://github.com/psf/black
+    rev: 22.1.0
+    hooks:
+      - id: black
+        args: ['--line-length=79']
+        files: '(\.pyi?|wscript|ipynb)$'
+        language_version: python3
+        additional_dependencies: [black-nb]
+-   repo: https://github.com/asottile/blacken-docs
+    rev: v1.8.0
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black==20.8b1]
+-   repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.4.2
+    hooks:
+      - id: isort
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v2.7.2
+    hooks:
+      - id: pyupgrade
+        args: [--py36-plus]
+-   repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v0.782
+    hooks:
+      - id: mypy
+        args: [--ignore-missing-imports]
+-   repo: https://gitlab.com/pycqa/flake8
+    rev: '3.8.3'
+    hooks:
+      - id: flake8
+-   repo: https://github.com/GussSoares/create-requirements
+    rev: 'v0.1.0'
+    hooks:
+      - id: create-requirements
+-   repo: https://github.com/compilerla/conventional-pre-commit
+    rev: 'v1.2.0'
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+-   repo: local
+    hooks:
+      - id: pytest coverage
+        name: Check pytest coverage
+        entry: poetry run pytest --cov=fcmeans
+        pass_filenames: false
+        language: system
+        types: [python]

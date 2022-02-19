@@ -1,0 +1,26 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build:
+    name: Publish
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          fetch-depth: '0'
+    - uses: actions/setup-python@v2
+    - uses: snok/install-poetry@v1
+    - run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        poetry install
+        poetry run semantic-release publish
+      env:
+        REPOSITORY_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        REPOSITORY_USERNAME: ${{ secrets.PYPI_USERNAME }}
