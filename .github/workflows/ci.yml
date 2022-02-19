@@ -25,7 +25,7 @@ jobs:
     - uses: snok/install-poetry@v1
     - uses: syphar/restore-virtualenv@v1
       id: cache-virtualenv
-    - run: poetry run pytest --cov=fcmeans . --cov-fail-under=50
+    - run: poetry run pytest --cov=fcmeans
 
   linter:
     needs: setup
