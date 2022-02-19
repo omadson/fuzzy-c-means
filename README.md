@@ -6,6 +6,7 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/omadson/fuzzy-c-means.svg)](https://github.com/omadson/fuzzy-c-means/commit/master)
 [![Downloads](https://pepy.tech/badge/fuzzy-c-means)](https://pepy.tech/project/fuzzy-c-means)
 [![DOI](https://zenodo.org/badge/186457481.svg)](https://zenodo.org/badge/latestdoi/186457481)
+[![Lines of code](https://img.shields.io/tokei/lines/github/omadson/fuzzy-c-means)](https://github.com/omadson/fuzzy-c-means)
 
 
 `fuzzy-c-means` is a Python module implementing the [Fuzzy C-means][1] clustering algorithm.
@@ -104,6 +105,7 @@ if you use `fuzzy-c-means` package in your paper, please cite it in your publica
  - [Fuzzy Clustering: an Application to Distributional Reinforcement Learning](https://doi.org/10.34726/hss.2021.86783)
  - [Fuzzy Clustering with Similarity Queries](https://arxiv.org/pdf/2106.02212.pdf)
  - [Robust Representation and Efficient Feature Selection Allows for Effective Clustering of SARS-CoV-2 Variants](https://arxiv.org/abs/2110.09622)
+ - [Unsupervised clustering-based spectral analysis of bio-dyed textile samples](http://urn.fi/urn:nbn:fi:uef-20211291)
 
 
 ## contributing and support
