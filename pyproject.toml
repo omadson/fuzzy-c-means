@@ -60,8 +60,28 @@ upload_to_release = true
 build_command = "poetry build"
 
 [mypy]
-plugins = 'numpy.typing.mypy_plugin'
+plugins = ['numpy.typing.mypy_plugin']
 
 [tool.coverage.report]
 omit = ['fcmeans/my_typing.py', 'fcmeans/__init__.py', 'fcmeans/cli.py']
 fail_under = 70
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = false
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = true
+ignore-setters = false
+fail-under = 95
+exclude = ["setup.py", "docs", "build"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 2
+quiet = false
+whitelist-regex = []
+color = true
+omit-covered-files = false
