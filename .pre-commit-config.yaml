@@ -57,6 +57,11 @@ repos:
     hooks:
       - id: conventional-pre-commit
         stages: [commit-msg]
+-   repo: https://github.com/econchick/interrogate
+    rev: 1.4.0
+    hooks:
+      - id: interrogate
+        args: [--vv, -i, --fail-under=80]
 -   repo: local
     hooks:
       - id: pytest coverage
