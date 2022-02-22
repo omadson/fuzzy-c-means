@@ -40,6 +40,11 @@ isort = "^5.10.1"
 mypy = "^0.931"
 python-semantic-release = "^7.25.0"
 black = {version = "^22.1.0", extras = ["jupyter"]}
+interrogate = "^1.5.0"
+mkdocs = "^1.2.3"
+mkdocs-material = "^8.2.1"
+mkdocs-jupyter = "^0.20.0"
+mkdocstrings = "^0.18.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -57,10 +62,31 @@ branch = "master"
 upload_to_pypi = true
 upload_to_release = true
 build_command = "poetry build"
+changelog_file = "docs/CHANGELOG.md"
 
 [mypy]
-plugins = 'numpy.typing.mypy_plugin'
+plugins = ['numpy.typing.mypy_plugin']
 
 [tool.coverage.report]
 omit = ['fcmeans/my_typing.py', 'fcmeans/__init__.py', 'fcmeans/cli.py']
 fail_under = 70
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = false
+ignore-magic = false
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+ignore-module = false
+ignore-nested-functions = false
+ignore-nested-classes = true
+ignore-setters = false
+fail-under = 95
+exclude = ["setup.py", "docs", "build"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 2
+quiet = false
+whitelist-regex = []
+color = true
+omit-covered-files = false

@@ -1,0 +1,44 @@
+site_name: fuzzy-c-means
+plugins:
+  - mkdocs-jupyter
+  - search
+  - mkdocstrings
+nav:
+    - Home: 'index.md'
+    - 'Getting started': 'getting-started.md'
+    - 'User Guide':
+        - 'Command Line Interface': 'CLI.md'
+        - 'Reference': 'reference.md'
+    - Examples:
+        - 'Basic clustering': 'examples/00 - Basic clustering.ipynb'
+        - 'Colour quantization': 'examples/01 - Colour quantization.ipynb'
+        - 'Clustering validation': 'examples/02 - Clustering validation.ipynb'
+    - About:
+        - 'Citation': 'citation.md'
+        - 'Changelog': 'CHANGELOG.md'
+        - 'Contributing': 'contributing.md'
+theme:
+  name: material
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+  features:
+    - navigation.sections
+markdown_extensions:
+  - footnotes
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+repo_url: https://github.com/omadson/fuzzy-c-means
