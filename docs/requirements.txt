@@ -1,0 +1,4 @@
+mkdocs==1.2.3
+mkdocs-material==8.2.1
+mkdocs-jupyter==0.20.0
+mkdocstrings==0.18.0
