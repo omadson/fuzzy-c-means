@@ -8,35 +8,27 @@ from pydantic import BaseModel, Extra, Field, validate_arguments
 class FCM(BaseModel):
     r"""Fuzzy C-means Model
 
-    Parameters
-    ----------
-    n_clusters : int
-        The number of clusters to form as well as the number of centroids
-        to generate by the fuzzy C-means.
-    max_iter : int
-        Maximum number of iterations of the fuzzy C-means algorithm
-        for a single run.
-    m : float
-        Degree of fuzziness $m \in (1, infty)$.
-    error : float
-        Relative tolerance with regards to Frobenius norm of the difference
+    Attributes:
+        n_clusters (int): The number of clusters to form as well as the number
+        of centroids to generate by the fuzzy C-means.
+        max_iter (int): Maximum number of iterations of the fuzzy C-means
+        algorithm for a single run.
+        m (float): Degree of fuzziness: $m \in (1, \infty)$.
+        error (float): Relative tolerance with regards to Frobenius norm of
+        the difference
         in the cluster centers of two consecutive iterations to declare
         convergence.
-    random_state : Optional[int]
-        Determines random number generation for centroid initialization.
+        random_state (Optional[int]): Determines random number generation for
+        centroid initialization.
         Use an int to make the randomness deterministic.
-    trained : bool
-        Variable to store whether or not the model has been trained.
+        trained (bool): Variable to store whether or not the model has been
+        trained.
 
-    Returns
-    -------
-    FCM
-        A FCM model.
+    Returns:
+        FCM: A FCM model.
 
-    Raises
-    ------
-    ReferenceError
-        If called without the model being trained
+    Raises:
+        ReferenceError: If called without the model being trained
     """
 
     class Config:
@@ -52,12 +44,10 @@ class FCM(BaseModel):
 
     @validate_arguments(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
-        """Train the fuzzy-c-means model..
+        """Train the fuzzy-c-means model
 
-        Parameters
-        ----------
-        X : array-like, shape = [n_samples, n_features]
-            Training instances to cluster.
+        Args:
+            X (NDArray): Training instances to cluster.
         """
         self.rng = np.random.default_rng(self.random_state)
         n_samples = X.shape[0]
@@ -78,18 +68,13 @@ class FCM(BaseModel):
     def soft_predict(self, X: NDArray) -> NDArray:
         """Soft predict of FCM
 
-        Parameters
-        ----------
-        X : NDArray
-            New data to predict.
+        Args:
+            X (NDArray): New data to predict.
 
-        Returns
-        -------
-        NDArray
-            Fuzzy partition array, returned as an array with n_samples rows
-            and n_clusters columns.
+        Returns:
+            NDArray: Fuzzy partition array, returned as an array with
+            n_samples rows and n_clusters columns.
         """
-
         temp = FCM._dist(X, self._centers) ** (2 / (self.m - 1))
         denominator_ = temp.reshape((X.shape[0], 1, -1)).repeat(
             temp.shape[-1], axis=1
@@ -101,20 +86,14 @@ class FCM(BaseModel):
     def predict(self, X: NDArray) -> NDArray:
         """Predict the closest cluster each sample in X belongs to.
 
-        Parameters
-        ----------
-        X : NDArray
-            New data to predict.
+        Args:
+            X (NDArray): New data to predict.
 
-        Returns
-        -------
-        NDArray
-            Index of the cluster each sample belongs to.
+        Raises:
+            ReferenceError: If it called without the model being trained.
 
-        Raises
-        ------
-        ReferenceError
-            If called without the model being trained
+        Returns:
+            NDArray: Index of the cluster each sample belongs to.
         """
         if self._is_trained():
             X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
@@ -151,17 +130,8 @@ class FCM(BaseModel):
     def partition_coefficient(self) -> float:
         """Partition coefficient
 
-        Equation 12a of https://doi.org/10.1016/0098-3004(84)90020-7
-
-        Returns
-        -------
-        float
-            Partition coefficient of clustering model
-
-        Raises
-        ------
-        ReferenceError
-            If called without the model being trained
+        Equation 12a of
+        [this paper](https://doi.org/10.1016/0098-3004(84)90020-7).
         """
         if self._is_trained():
             return np.mean(self.u**2)
