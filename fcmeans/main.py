@@ -1,8 +1,10 @@
 from typing import Optional
 
+from joblib import Parallel, delayed
 import numpy as np
 from numpy.typing import NDArray
 from pydantic import BaseModel, Extra, Field, validate_arguments
+import tqdm
 
 
 class FCM(BaseModel):
@@ -35,12 +37,14 @@ class FCM(BaseModel):
         extra = Extra.allow
         arbitrary_types_allowed = True
 
-    n_clusters: int = Field(5, ge=1, le=100)
+    n_clusters: int = Field(5, ge=1)
     max_iter: int = Field(150, ge=1, le=1000)
     m: float = Field(2.0, ge=1.0)
     error: float = Field(1e-5, ge=1e-9)
     random_state: Optional[int] = None
     trained: bool = Field(False, const=True)
+    n_jobs: int = Field(1, ge=1)
+    verbose: Optional[bool] = False
 
     @validate_arguments(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
@@ -52,10 +56,10 @@ class FCM(BaseModel):
         self.rng = np.random.default_rng(self.random_state)
         n_samples = X.shape[0]
         self.u = self.rng.uniform(size=(n_samples, self.n_clusters))
-        self.u = self.u / np.tile(
-            self.u.sum(axis=1)[np.newaxis].T, self.n_clusters
-        )
-        for _ in range(self.max_iter):
+        self.u = self.u / np.tile(self.u.sum(axis=1)[np.newaxis].T, self.n_clusters)
+        for _ in tqdm.tqdm(
+            range(self.max_iter), desc="Training", disable=not self.verbose
+        ):
             u_old = self.u.copy()
             self._centers = FCM._next_centers(X, self.u, self.m)
             self.u = self.soft_predict(X)
@@ -76,11 +80,12 @@ class FCM(BaseModel):
             n_samples rows and n_clusters columns.
         """
         temp = FCM._dist(X, self._centers) ** (2 / (self.m - 1))
-        denominator_ = temp.reshape((X.shape[0], 1, -1)).repeat(
-            temp.shape[-1], axis=1
+        u_dist = Parallel(n_jobs=self.n_jobs)(
+            delayed(lambda data, col: (data[:, col] / data.T).sum(0))(temp, col)
+            for col in range(temp.shape[1])
         )
-        denominator_ = temp[:, :, np.newaxis] / denominator_
-        return 1 / denominator_.sum(2)
+        u_dist = np.vstack(u_dist).T
+        return 1 / u_dist
 
     @validate_arguments(config=dict(arbitrary_types_allowed=True))
     def predict(self, X: NDArray) -> NDArray:

@@ -31,9 +31,7 @@ class Options:
 
 def extension_check(extension: str, value: Path):
     if value.suffix != extension:
-        raise typer.BadParameter(
-            f"File '{value}' must be extension '{extension}'."
-        )
+        raise typer.BadParameter(f"File '{value}' must be extension '{extension}'.")
     return value
 
 
@@ -145,12 +143,8 @@ def fit(
     random_state: int = typer.Option(
         None, "--seed", "-s", help="Seed for the random number generator."
     ),
-    quiet: bool = typer.Option(
-        False, "--quiet", "-q", help="Suppress model info."
-    ),
-    predict: bool = typer.Option(
-        False, "--predict", "-p", help="Prediction flag."
-    ),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress model info."),
+    predict: bool = typer.Option(False, "--predict", "-p", help="Prediction flag."),
 ):
     """Train and save a fuzzy-c-means model given a dataset."""
     X = _read_data(dataset_path, delimiter, quiet)
@@ -210,9 +204,7 @@ def predict(
         help="Delimiter of data set file.",
         callback=delimiter_callback,
     ),
-    quiet: bool = typer.Option(
-        False, "--quiet", "-q", help="Suppress model info."
-    ),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress model info."),
     model_path: Path = typer.Argument(
         "model.sav",
         help="Path to save the created model.",
