@@ -2,4 +2,4 @@
 """fuzzy-c-means - A simple implementation of Fuzzy C-means algorithm."""
 from .main import FCM
 
-__version__ = "1.6.4"
+__version__ = "1.7.0"
