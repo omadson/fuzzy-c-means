@@ -1,4 +1,5 @@
-from typing import Optional
+from typing import Optional, Dict, Union, Callable
+from enum import Enum
 
 from joblib import Parallel, delayed
 import numpy as np
@@ -6,6 +7,11 @@ from numpy.typing import NDArray
 from pydantic import BaseModel, Extra, Field, validate_arguments
 import tqdm
 
+
+class DistanceOptions(str, Enum):
+    euclidean = 'euclidean'
+    minkowski = 'minkowski'
+    cosine = 'cosine'
 
 class FCM(BaseModel):
     r"""Fuzzy C-means Model
@@ -45,6 +51,8 @@ class FCM(BaseModel):
     trained: bool = Field(False, const=True)
     n_jobs: int = Field(1, ge=1)
     verbose: Optional[bool] = False
+    distance: Optional[Union[DistanceOptions, Callable]] = DistanceOptions.euclidean
+    distance_params: Optional[Dict] = {}
 
     @validate_arguments(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
@@ -79,7 +87,7 @@ class FCM(BaseModel):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        temp = FCM._dist(X, self._centers) ** (2 / (self.m - 1))
+        temp = FCM._dist(X, self._centers, self.distance, self.distance_params) ** (2 / (self.m - 1))
         u_dist = Parallel(n_jobs=self.n_jobs)(
             delayed(lambda data, col: (data[:, col] / data.T).sum(0))(temp, col)
             for col in range(temp.shape[1])
@@ -113,9 +121,33 @@ class FCM(BaseModel):
         return False
 
     @staticmethod
-    def _dist(A: NDArray, B: NDArray) -> NDArray:
-        """Compute the euclidean distance two matrices"""
+    def _dist(A: NDArray, B: NDArray, distance: str, distance_params: str) -> NDArray:
+        """Compute the distance between two matrices"""
+        if isinstance(distance, Callable):
+            return distance(A, B, distance_params)
+        elif distance == 'minkowski':
+            return FCM._minkowski(A, B, distance_params.get("p", 1.0))
+        elif distance == 'cosine':
+            return FCM._cosine_similarity(A, B)
+        else:
+            return FCM._euclidean(A, B)
+    
+    @staticmethod
+    def _euclidean(A: NDArray, B: NDArray) -> NDArray:
+        """Compute the euclidean distance between two matrices"""
         return np.sqrt(np.einsum("ijk->ij", (A[:, None, :] - B) ** 2))
+
+    @staticmethod
+    def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
+        """Compute the minkowski distance between two matrices"""
+        return (np.einsum("ijk->ij", (A[:, None, :] - B) ** p)) ** (1/p)
+    
+    @staticmethod
+    def _cosine_similarity(A: NDArray, B: NDArray) -> NDArray:
+        """Compute the cosine similarity between two matrices"""
+        p1 = np.sqrt(np.sum(A**2,axis=1))[:,np.newaxis]
+        p2 = np.sqrt(np.sum(B**2,axis=1))[np.newaxis,:]
+        return np.dot(A,B.T) / (p1*p2)
 
     @staticmethod
     def _next_centers(X: NDArray, u: NDArray, m: float):
