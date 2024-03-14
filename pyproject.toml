@@ -35,7 +35,7 @@ joblib = "^1.2.0"
 [tool.poetry.dev-dependencies]
 pre-commit = "^2.13.0"
 matplotlib = "^3.4.3"
-jupyterlab = "^3.1.9"
+jupyterlab = "^3.6.7"
 pytest = "^7.0.1"
 pytest-cov = "^3.0.0"
 flake8 = "^4.0.1"
