@@ -1,27 +1,24 @@
-name: Publish
+name: Semantic Release
 
 on:
   push:
     branches:
       - master
-      - main
 
 jobs:
-  build:
-    name: Publish
+  release:
     runs-on: ubuntu-latest
+    concurrency: release
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
-          fetch-depth: '0'
-    - uses: actions/setup-python@v2
-    - uses: snok/install-poetry@v1
-    - run: |
-        git config user.name github-actions
-        git config user.email github-actions@github.com
-        poetry install
-        poetry run semantic-release publish
-      env:
-        REPOSITORY_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        REPOSITORY_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        fetch-depth: 0
+
+    - name: Python Semantic Release
+      uses: python-semantic-release/python-semantic-release@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
