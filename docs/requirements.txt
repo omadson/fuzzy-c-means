@@ -29,7 +29,7 @@ entrypoints==0.4; python_full_version >= "3.7.1" and python_version < "4" and py
 executing==0.8.2; python_full_version >= "3.6.2" and python_version >= "3.8"
 filelock==3.6.0; python_version >= "3.7" and python_full_version >= "3.6.1"
 flake8==4.0.1; python_version >= "3.6"
-fonttools==4.29.1; python_version >= "3.7"
+fonttools==4.43.0; python_version >= "3.7"
 ghp-import==2.0.2; python_full_version >= "3.7.1" and python_version < "4" and python_version >= "3.7"
 gitdb==4.0.9; python_version >= "3.7"
 gitpython==3.1.27; python_version >= "3.7"
