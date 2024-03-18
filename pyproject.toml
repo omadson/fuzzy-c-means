@@ -48,6 +48,7 @@ mkdocs = "^1.5.3"
 mkdocs-material = "^9.5.14"
 mkdocs-jupyter = "^0.24.6"
 mkdocstrings = "^0.24.1"
+mkdocstrings-python-legacy = "^0.2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -56,15 +57,22 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 fcm = 'fcmeans.cli:app'
 
+
 [tool.semantic_release]
-version_variable = [
+version_variables = [
     'fcmeans/__init__.py:__version__',
-    "pyproject.toml:version"
 ]
-branch = "master"
-upload_to_pypi = true
-upload_to_release = true
+version_toml = ["pyproject.toml:tool.poetry.version"]
+[tool.semantic_release.branches.main]
+match = "(main|master)"
+prerelease_token = "rc"
+prerelease = false
 build_command = "poetry build"
+
+[tool.semantic_release.publish]
+upload_to_vcs_release = true
+
+[tool.semantic_release.changelog]
 changelog_file = "docs/CHANGELOG.md"
 
 [mypy]
