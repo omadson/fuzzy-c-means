@@ -2,6 +2,13 @@
 
 
 
+## v1.7.2 (2024-03-18)
+
+### Fix
+
+* fix: fix release and publish scripts. ([`7718856`](https://github.com/omadson/fuzzy-c-means/commit/7718856ed5823b68129e28839b174b60d75239a3))
+
+
 ## v1.7.1 (2024-03-18)
 
 ### Build

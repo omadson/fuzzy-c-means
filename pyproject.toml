@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fuzzy-c-means"
-version = "1.7.1"
+version = "1.7.2"
 description = "A simple python implementation of Fuzzy C-means algorithm."
 authors = ["Madson Dias <madsonddias@gmail.com>"]
 
