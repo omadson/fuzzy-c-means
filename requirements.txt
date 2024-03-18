@@ -1,9 +1,11 @@
-click==8.0.4; python_version >= "3.6"
-colorama==0.4.4; python_version >= "3.6" and python_full_version < "3.0.0" and platform_system == "Windows" or platform_system == "Windows" and python_version >= "3.6" and python_full_version >= "3.5.0"
-joblib==1.2.0
-numpy==1.22.2; python_version >= "3.8"
-pydantic==1.9.0; python_full_version >= "3.6.1"
-tabulate==0.8.9
-tqdm==4.64.1
-typer==0.4.0; python_version >= "3.6"
-typing-extensions==4.1.1; python_version >= "3.6" and python_full_version >= "3.6.1"
+annotated-types==0.6.0 ; python_version >= "3.9" and python_version < "4.0"
+click==8.1.7 ; python_version >= "3.9" and python_version < "4.0"
+colorama==0.4.6 ; python_version >= "3.9" and python_version < "4.0" and platform_system == "Windows"
+joblib==1.3.2 ; python_version >= "3.9" and python_version < "4.0"
+numpy==1.26.4 ; python_version >= "3.9" and python_version < "4.0"
+pydantic-core==2.16.3 ; python_version >= "3.9" and python_version < "4.0"
+pydantic==2.6.4 ; python_version >= "3.9" and python_version < "4.0"
+tabulate==0.8.10 ; python_version >= "3.9" and python_version < "4.0"
+tqdm==4.66.2 ; python_version >= "3.9" and python_version < "4.0"
+typer==0.9.0 ; python_version >= "3.9" and python_version < "4.0"
+typing-extensions==4.10.0 ; python_version >= "3.9" and python_version < "4.0"
