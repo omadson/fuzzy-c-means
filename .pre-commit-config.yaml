@@ -16,15 +16,6 @@ repos:
       - id: trailing-whitespace
       - id: mixed-line-ending
       - id: check-added-large-files
-
--   repo: https://github.com/psf/black
-    rev: 22.1.0
-    hooks:
-      - id: black
-        args: ['--line-length=79']
-        files: '(\.pyi?|wscript|ipynb)$'
-        language_version: python3
-        additional_dependencies: [black-nb]
 -   repo: https://github.com/asottile/blacken-docs
     rev: v1.8.0
     hooks:
