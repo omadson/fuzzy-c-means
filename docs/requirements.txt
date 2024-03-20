@@ -7,7 +7,7 @@ atomicwrites==1.4.0; python_version >= "3.6" and python_full_version < "3.0.0" a
 attrs==21.4.0; python_full_version >= "3.7.1" and python_version >= "3.7" and python_version < "4.0"
 babel==2.9.1; python_version >= "3.6" and python_full_version < "3.0.0" or python_full_version >= "3.4.0" and python_version >= "3.6"
 backcall==0.2.0; python_full_version >= "3.6.2" and python_version >= "3.8"
-black==22.1.0; python_full_version >= "3.6.2"
+black==24.3.0; python_full_version >= "3.6.2"
 bleach==4.1.0; python_full_version >= "3.7.1" and python_version < "4" and python_version >= "3.7"
 certifi==2021.10.8; python_full_version >= "3.6.0" and python_version >= "3.6"
 cffi==1.15.0; implementation_name == "pypy" and python_version >= "3.7" and python_full_version >= "3.6.1" and sys_platform == "linux"
