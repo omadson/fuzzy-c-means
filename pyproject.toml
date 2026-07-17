@@ -76,12 +76,12 @@ build-backend = "uv_build"
 version_variables = [
     'fcmeans/__init__.py:__version__',
 ]
-version_toml = ["pyproject.toml:tool.poetry.version"]
+version_toml = ["pyproject.toml:project.version"]
 [tool.semantic_release.branches.main]
 match = "(main|master)"
 prerelease_token = "rc"
 prerelease = false
-build_command = "poetry build"
+build_command = ""
 
 [tool.semantic_release.publish]
 upload_to_vcs_release = true
