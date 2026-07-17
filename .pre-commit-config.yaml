@@ -57,7 +57,7 @@ repos:
     hooks:
       - id: pytest coverage
         name: Check pytest coverage
-        entry: poetry run pytest --cov=fcmeans
+        entry: uv run pytest --cov=fcmeans
         pass_filenames: false
         language: system
         types: [python]
