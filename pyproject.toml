@@ -1,61 +1,75 @@
-[tool.poetry]
+[project]
 name = "fuzzy-c-means"
 version = "1.7.2"
 description = "A simple python implementation of Fuzzy C-means algorithm."
-authors = ["Madson Dias <madsonddias@gmail.com>"]
-
-
-license = "MIT"
+authors = [{ name = "Madson Dias", email = "madsonddias@gmail.com" }]
+requires-python = ">=3.9,<4"
 readme = "README.md"
-documentation = "https://fuzzy-c-means.readthedocs.io/en/latest/"
-repository = "https://github.com/omadson/fuzzy-c-means"
-keywords = ["machine-learning", "data-science", "fuzzy-c-means", "clustering"]
+license = "MIT"
+keywords = [
+    "machine-learning",
+    "data-science",
+    "fuzzy-c-means",
+    "clustering",
+]
 classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
-include = [
-    "LICENSE",
+dependencies = [
+    "numpy>=1.21.1,<2",
+    "tabulate>=0.8.9,<0.9",
+    "tqdm>=4.64.1,<5",
+    "joblib>=1.2.0,<2",
+    "pydantic>=2.6.4,<3",
+    "typer>=0.9.0,<0.10",
 ]
 
-packages = [
-    { include = "fcmeans" }
+[project.urls]
+Repository = "https://github.com/omadson/fuzzy-c-means"
+Documentation = "https://fuzzy-c-means.readthedocs.io/en/latest/"
+
+[project.scripts]
+fcm = "fcmeans.cli:app"
+
+[dependency-groups]
+dev = [
+    "pre-commit>=3.6.2,<4",
+    "matplotlib>=3.8.3,<4",
+    "jupyterlab>=4.1.5,<5",
+    "pytest>=8.1.1,<9",
+    "pytest-cov>=4.1.0,<5",
+    "flake8>=7.0.0,<8",
+    "isort>=5.13.2,<6",
+    "mypy>=1.9.0,<2",
+    "python-semantic-release>=9.2.0,<10",
+    "black>=24.3.0,<25",
+    "interrogate>=1.5.0,<2",
+    "mkdocs>=1.5.3,<2",
+    "mkdocs-material>=9.5.14,<10",
+    "mkdocs-jupyter>=0.24.6,<0.25",
+    "mkdocstrings>=0.24.1,<0.25",
+    "mkdocstrings-python-legacy>=0.2.3,<0.3",
 ]
 
+[tool.uv]
+default-groups = "all"
 
-[tool.poetry.dependencies]
-python = "^3.9"
-numpy = "^1.21.1"
-tabulate = "^0.8.9"
-tqdm = "^4.64.1"
-joblib = "^1.2.0"
-pydantic = "^2.6.4"
-typer = "^0.9.0"
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^3.6.2"
-matplotlib = "^3.8.3"
-jupyterlab = "^4.1.5"
-pytest = "^8.1.1"
-pytest-cov = "^4.1.0"
-flake8 = "^7.0.0"
-isort = "^5.13.2"
-mypy = "^1.9.0"
-python-semantic-release = "^9.2.0"
-black = "^24.3.0"
-interrogate = "^1.5.0"
-mkdocs = "^1.5.3"
-mkdocs-material = "^9.5.14"
-mkdocs-jupyter = "^0.24.6"
-mkdocstrings = "^0.24.1"
-mkdocstrings-python-legacy = "^0.2.3"
+[tool.uv.build-backend]
+module-name = ["fcmeans"]
+module-root = ""
+source-include = ["LICENSE"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-fcm = 'fcmeans.cli:app'
+requires = ["uv_build>=0.9.17,<0.10.0"]
+build-backend = "uv_build"
 
 
 [tool.semantic_release]
