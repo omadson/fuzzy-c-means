@@ -198,7 +198,7 @@ class FCM(BaseModel):
         [this paper](https://doi.org/10.1016/0098-3004(84)90020-7).
         """
         if self._is_trained():
-            return np.mean(self.u**2)
+            return np.sum(np.mean(self.u**2, axis=0))
         raise ReferenceError(
             "You need to train the model. Run `.fit()` method to this."
         )
@@ -206,7 +206,7 @@ class FCM(BaseModel):
     @property
     def partition_entropy_coefficient(self):
         if self._is_trained():
-            return -np.mean(self.u * np.log2(self.u))
+            return -np.sum(np.mean(self.u * np.log2(self.u), axis=0))
         raise ReferenceError(
             "You need to train the model. Run `.fit()` method to this."
         )
