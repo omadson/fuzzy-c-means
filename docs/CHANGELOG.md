@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## v1.7.4 (2026-07-18)
+
+### Bug Fixes
+
+- Relax tabulate version constraint to allow 0.9.x
+  ([`5e0f277`](https://github.com/omadson/fuzzy-c-means/commit/5e0f27709417f3c29d38df2bfd19756409cb6074))
+
+Allows tabulate>=0.9.0 alongside pandas[output-formatting]/[all] (>=2.2), which requires
+  tabulate>=0.9.0 and previously conflicted with our <0.9 pin.
+
+
 ## v1.7.3 (2026-07-17)
 
 ### Bug Fixes
