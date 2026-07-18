@@ -1,6 +1,53 @@
 # CHANGELOG
 
 
+## v2.0.0 (2026-07-18)
+
+### Performance Improvements
+
+- Vectorize soft_predict and drop the joblib dependency
+  ([#116](https://github.com/omadson/fuzzy-c-means/pull/116),
+  [`b3cec35`](https://github.com/omadson/fuzzy-c-means/commit/b3cec35e2ac34a9bd1fb5f44a10a4f6a6ac0c1d0))
+
+soft_predict computed cluster memberships with a joblib.Parallel loop over clusters, adding pickling
+  overhead for problems with only a handful of clusters. Replace it with an equivalent vectorized
+  numpy expression and drop joblib and the n_jobs parameter entirely.
+
+BREAKING CHANGE: removes the public n_jobs parameter. Existing FCM(n_jobs=...) calls keep working
+  since extra fields are allowed and ignored, but n_jobs no longer has any effect.
+
+Refs #116
+
+### Refactoring
+
+- Consolidate trained-state guard into _require_trained
+  ([#116](https://github.com/omadson/fuzzy-c-means/pull/116),
+  [`0778114`](https://github.com/omadson/fuzzy-c-means/commit/0778114e7b335da2f28671455e9175cc05915096))
+
+predict, centers, partition_coefficient and partition_entropy_coefficient each duplicated the same
+  if/else ReferenceError check via _is_trained. Replace it with a single _require_trained() guard
+  called up front.
+
+Refs #116
+
+### Testing
+
+- Cover membership normalization and predict determinism
+  ([#116](https://github.com/omadson/fuzzy-c-means/pull/116),
+  [`6b2133d`](https://github.com/omadson/fuzzy-c-means/commit/6b2133dbeb4012f6f5c9edd1c3799239ede2feed))
+
+Add regression coverage for the vectorized soft_predict and the consolidated trained-state guard: u
+  rows sum to one, soft_predict(X) reproduces the fitted membership matrix, and predict returns
+  deterministic labels within range.
+
+Refs #116
+
+### Breaking Changes
+
+- Removes the public n_jobs parameter. Existing FCM(n_jobs=...) calls keep working since extra
+  fields are allowed and ignored, but n_jobs no longer has any effect.
+
+
 ## v1.7.5 (2026-07-18)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 [project]
 name = "fuzzy-c-means"
-version = "1.7.5"
+version = "2.0.0"
 description = "A simple python implementation of Fuzzy C-means algorithm."
 authors = [{ name = "Madson Dias", email = "madsonddias@gmail.com" }]
 requires-python = ">=3.9,<4"
