@@ -1,6 +1,19 @@
 # CHANGELOG
 
 
+## v1.7.5 (2026-07-18)
+
+### Bug Fixes
+
+- Allow datasets containing 0.0 values in CLI
+  ([`8ed2271`](https://github.com/omadson/fuzzy-c-means/commit/8ed22711b10cab1ba109aa0382995c652c701ae8))
+
+_read_data rejected any CSV with a legitimate 0.0 value because `np.all(X)` treats 0 as falsy. The
+  check also never caught its intended case: a wrong delimiter makes genfromtxt produce NaN, which
+  np.all() treats as truthy, so the existing NaN check below already covers both wrong-delimiter and
+  NaN-data cases on its own.
+
+
 ## v1.7.4 (2026-07-18)
 
 ### Bug Fixes
