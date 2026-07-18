@@ -67,15 +67,14 @@ def _read_data(dataset_path, delimiter, quiet):
     if not quiet:
         typer.echo("Reading data set... ", nl=False)
     X = np.genfromtxt(dataset_path, delimiter=delimiter)
-    # Check file read
-    if not np.all(X):
-        typer.echo(
-            "Error: Please verify if value for '--delimiter' / '-d' is "
-            f"the delimiter of the '{dataset_path}' file."
-        )
-        raise typer.Abort()
+    # A wrong delimiter makes genfromtxt produce NaN, so the NaN check below
+    # also catches delimiter mistakes.
     if np.isnan(np.sum(X)):
-        typer.echo(f"Error: File '{dataset_path}' cannot contain NaN.")
+        typer.echo(
+            f"Error: File '{dataset_path}' contains NaN. Verify that the "
+            "value for '--delimiter' / '-d' matches the file's delimiter "
+            "and that the file has no missing values."
+        )
         raise typer.Abort()
     if not quiet:
         typer.echo("Data set read without errors...")
