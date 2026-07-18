@@ -19,7 +19,7 @@ def test_u_creation():
 def test_dont_fit():
     """Test if its returns Exceptions"""
     fcm = FCM()
-    assert fcm._is_trained() == False
+    assert fcm.trained == False
     with pytest.raises(ReferenceError):
         partition_entropy_coefficient = fcm.partition_entropy_coefficient
     with pytest.raises(ReferenceError):

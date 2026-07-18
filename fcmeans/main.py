@@ -110,17 +110,15 @@ class FCM(BaseModel):
         Returns:
             NDArray: Index of the cluster each sample belongs to.
         """
-        if self._is_trained():
-            X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
-            return self.soft_predict(X).argmax(axis=-1)
-        raise ReferenceError(
-            "You need to train the model. Run `.fit()` method to this."
-        )
+        self._require_trained()
+        X = np.expand_dims(X, axis=0) if len(X.shape) == 1 else X
+        return self.soft_predict(X).argmax(axis=-1)
 
-    def _is_trained(self) -> bool:
-        if self.trained:
-            return True
-        return False
+    def _require_trained(self) -> None:
+        if not self.trained:
+            raise ReferenceError(
+                "You need to train the model. Run `.fit()` method to this."
+            )
 
     @staticmethod
     def _dist(
@@ -175,11 +173,8 @@ class FCM(BaseModel):
 
     @property
     def centers(self) -> NDArray:
-        if self._is_trained():
-            return self._centers
-        raise ReferenceError(
-            "You need to train the model. Run `.fit()` method to this."
-        )
+        self._require_trained()
+        return self._centers
 
     @property
     def partition_coefficient(self) -> float:
@@ -188,16 +183,10 @@ class FCM(BaseModel):
         Equation 12a of
         [this paper](https://doi.org/10.1016/0098-3004(84)90020-7).
         """
-        if self._is_trained():
-            return np.sum(np.mean(self.u**2, axis=0))
-        raise ReferenceError(
-            "You need to train the model. Run `.fit()` method to this."
-        )
+        self._require_trained()
+        return np.sum(np.mean(self.u**2, axis=0))
 
     @property
     def partition_entropy_coefficient(self):
-        if self._is_trained():
-            return -np.sum(np.mean(self.u * np.log2(self.u), axis=0))
-        raise ReferenceError(
-            "You need to train the model. Run `.fit()` method to this."
-        )
+        self._require_trained()
+        return -np.sum(np.mean(self.u * np.log2(self.u), axis=0))
