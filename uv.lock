@@ -1474,7 +1474,7 @@ wheels = [
 
 [[package]]
 name = "fuzzy-c-means"
-version = "1.7.2"
+version = "1.7.3"
 source = { editable = "." }
 dependencies = [
     { name = "joblib" },
@@ -1514,7 +1514,7 @@ requires-dist = [
     { name = "joblib", specifier = ">=1.2.0,<2" },
     { name = "numpy", specifier = ">=1.21.1,<2" },
     { name = "pydantic", specifier = ">=2.6.4,<3" },
-    { name = "tabulate", specifier = ">=0.8.9,<0.9" },
+    { name = "tabulate", specifier = ">=0.8.9,<1" },
     { name = "tqdm", specifier = ">=4.64.1,<5" },
     { name = "typer", specifier = ">=0.9.0,<0.10" },
 ]
