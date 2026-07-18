@@ -3,7 +3,6 @@ from typing import Callable, Dict, Optional, Union
 
 import numpy as np
 import tqdm
-from joblib import Parallel, delayed
 from numpy.typing import NDArray
 from pydantic import BaseModel, ConfigDict, Field, validate_call
 
@@ -49,7 +48,6 @@ class FCM(BaseModel):
     error: float = Field(1e-5, ge=1e-9)
     random_state: Optional[int] = None
     trained: bool = False
-    n_jobs: int = Field(1, ge=1)
     verbose: Optional[bool] = False
     distance: Optional[Union[DistanceOptions, Callable]] = (
         DistanceOptions.euclidean
@@ -97,14 +95,7 @@ class FCM(BaseModel):
             self.distance,
             self.distance_params
         ) ** (2 / (self.m - 1))
-        u_dist = Parallel(n_jobs=self.n_jobs)(
-            delayed(
-                lambda data, col: (data[:, col] / data.T).sum(0)
-            )(temp, col)
-            for col in range(temp.shape[1])
-        )
-        u_dist = np.vstack(u_dist).T
-        return 1 / u_dist
+        return 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def predict(self, X: NDArray) -> NDArray:
