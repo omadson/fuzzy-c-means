@@ -1,4 +1,5 @@
 """Tests for FCM Class"""
+
 # flake8: noqa
 import numpy as np
 import pytest

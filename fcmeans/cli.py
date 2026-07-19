@@ -10,6 +10,7 @@ $ fcm --install-completion bash
 
 https://github.com/omadson/fuzzy-c-means
 """
+
 import pickle
 import time
 from pathlib import Path
@@ -24,22 +25,29 @@ app = typer.Typer(help=__doc__)
 
 
 class Options:
+    """Turn a dictionary into an attribute-accessible namespace."""
+
     def __init__(self, dictionary):
         for k, v in dictionary.items():
             setattr(self, k, v)
 
 
 def extension_check(extension: str, value: Path):
+    """Raise if `value`'s suffix doesn't match `extension`."""
     if value.suffix != extension:
-        raise typer.BadParameter(f"File '{value}' must be extension '{extension}'.")
+        raise typer.BadParameter(
+            f"File '{value}' must be extension '{extension}'."
+        )
     return value
 
 
 def input_path_callback(value: Path):
+    """Validate that the input dataset path is a .csv file."""
     return extension_check(".csv", value)
 
 
 def model_path_callback(value: Path):
+    """Confirm overwrite if the model output path already exists."""
     if value.exists():
         typer.confirm(
             f"Do you confirm to replace '{value}' file?",
@@ -50,6 +58,7 @@ def model_path_callback(value: Path):
 
 
 def delimiter_callback(value: str):
+    """Validate that the delimiter is one of the supported characters."""
     delimiters = [" ", ",", "|", ";"]
     if value in delimiters:
         return value
@@ -142,8 +151,12 @@ def fit(
     random_state: int = typer.Option(
         None, "--seed", "-s", help="Seed for the random number generator."
     ),
-    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress model info."),
-    predict: bool = typer.Option(False, "--predict", "-p", help="Prediction flag."),
+    quiet: bool = typer.Option(
+        False, "--quiet", "-q", help="Suppress model info."
+    ),
+    predict: bool = typer.Option(
+        False, "--predict", "-p", help="Prediction flag."
+    ),
 ):
     """Train and save a fuzzy-c-means model given a dataset."""
     X = _read_data(dataset_path, delimiter, quiet)
@@ -203,7 +216,9 @@ def predict(
         help="Delimiter of data set file.",
         callback=delimiter_callback,
     ),
-    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress model info."),
+    quiet: bool = typer.Option(
+        False, "--quiet", "-q", help="Suppress model info."
+    ),
     model_path: Path = typer.Argument(
         "model.sav",
         help="Path to save the created model.",
