@@ -1,6 +1,27 @@
 # CHANGELOG
 
 
+## v2.0.2 (2026-07-19)
+
+### Bug Fixes
+
+- Enforce lint checks and update stale actions in CI
+  ([`f394ee7`](https://github.com/omadson/fuzzy-c-means/commit/f394ee7185695bafe251158fdaae586f7a8de916))
+
+- Repair broken pre-commit hook configuration
+  ([`fe3bf0f`](https://github.com/omadson/fuzzy-c-means/commit/fe3bf0fe1f9f4c3fdd404b0c6d39c6dac9fa44da))
+
+### Chores
+
+- Trigger release workflow to test push dispatch
+  ([`ac06720`](https://github.com/omadson/fuzzy-c-means/commit/ac067200c5d5baa0e48b8e255b1a3edb1fe9e7a2))
+
+### Code Style
+
+- Format code and add missing docstrings for lint compliance
+  ([`1af5acf`](https://github.com/omadson/fuzzy-c-means/commit/1af5acff88bd2e76d0659e71af22f44ee6042434))
+
+
 ## v2.0.1 (2026-07-19)
 
 ### Bug Fixes
