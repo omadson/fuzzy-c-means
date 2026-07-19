@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v2.0.1 (2026-07-19)
+
+### Bug Fixes
+
+- Update readthedocs build os to ubuntu-24.04
+  ([`ee05f42`](https://github.com/omadson/fuzzy-c-means/commit/ee05f42ffa8c1200c8585a90884ae647d45edde4))
+
+
 ## v2.0.0 (2026-07-18)
 
 ### Performance Improvements
