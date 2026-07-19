@@ -1,5 +1,7 @@
+"""Fuzzy C-means clustering implementation."""
+
 from enum import Enum
-from typing import Callable, Dict, Optional, Union
+from typing import Callable, Optional, Union
 
 import numpy as np
 import tqdm
@@ -9,9 +11,10 @@ from pydantic import BaseModel, ConfigDict, Field, validate_call
 
 class DistanceOptions(str, Enum):
     """Implemented distances"""
-    euclidean = 'euclidean'
-    minkowski = 'minkowski'
-    cosine = 'cosine'
+
+    euclidean = "euclidean"
+    minkowski = "minkowski"
+    cosine = "cosine"
 
 
 class FCM(BaseModel):
@@ -52,7 +55,7 @@ class FCM(BaseModel):
     distance: Optional[Union[DistanceOptions, Callable]] = (
         DistanceOptions.euclidean
     )
-    distance_params: Optional[Dict] = {}
+    distance_params: Optional[dict] = {}
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
@@ -90,10 +93,7 @@ class FCM(BaseModel):
             n_samples rows and n_clusters columns.
         """
         temp = FCM._dist(
-            X,
-            self._centers,
-            self.distance,
-            self.distance_params
+            X, self._centers, self.distance, self.distance_params
         ) ** (2 / (self.m - 1))
         return 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
 
@@ -127,18 +127,18 @@ class FCM(BaseModel):
         distance: Optional[Union[DistanceOptions, Callable]] = (
             DistanceOptions.euclidean
         ),
-        distance_params: Optional[Dict] = {}
+        distance_params: Optional[dict] = {},
     ) -> NDArray:
         """Compute the distance between two matrices"""
         if callable(distance):
             return distance(A, B, distance_params)
-        elif distance == 'minkowski':
+        elif distance == "minkowski":
             if isinstance(distance_params, dict):
                 p = distance_params.get("p", 1.0)
             else:
                 p = 1.0
             return FCM._minkowski(A, B, p)
-        elif distance == 'cosine':
+        elif distance == "cosine":
             return FCM._cosine(A, B)
         else:
             return FCM._euclidean(A, B)
@@ -151,14 +151,14 @@ class FCM(BaseModel):
     @staticmethod
     def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
         """Compute the minkowski distance between two matrices"""
-        return (np.einsum("ijk->ij", (A[:, None, :] - B) ** p)) ** (1/p)
+        return (np.einsum("ijk->ij", (A[:, None, :] - B) ** p)) ** (1 / p)
 
     @staticmethod
     def _cosine_similarity(A: NDArray, B: NDArray) -> NDArray:
         """Compute the cosine similarity between two matrices"""
         p1 = np.sqrt(np.sum(A**2, axis=1))[:, np.newaxis]
         p2 = np.sqrt(np.sum(B**2, axis=1))[np.newaxis, :]
-        return np.dot(A, B.T) / (p1*p2)
+        return np.dot(A, B.T) / (p1 * p2)
 
     @staticmethod
     def _cosine(A: NDArray, B: NDArray) -> NDArray:
