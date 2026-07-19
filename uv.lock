@@ -1474,7 +1474,7 @@ wheels = [
 
 [[package]]
 name = "fuzzy-c-means"
-version = "1.7.5"
+version = "2.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "numpy" },
