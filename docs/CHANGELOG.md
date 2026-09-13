@@ -1,6 +1,71 @@
 # CHANGELOG
 
 
+## v2.0.3 (2026-09-13)
+
+### Bug Fixes
+
+- Use absolute differences in minkowski distance
+  ([`d59b3d4`](https://github.com/omadson/fuzzy-c-means/commit/d59b3d4c60ef9330952b56c06159eb7e88a8c1d7))
+
+### Build System
+
+- **deps**: Bump bleach from 4.1.0 to 6.4.0
+  ([`13d8fe4`](https://github.com/omadson/fuzzy-c-means/commit/13d8fe4d8ef9baadc3cf24d166e257d23937d5c6))
+
+Bumps [bleach](https://github.com/mozilla/bleach) from 4.1.0 to 6.4.0. -
+  [Changelog](https://github.com/mozilla/bleach/blob/main/CHANGES) -
+  [Commits](https://github.com/mozilla/bleach/compare/v4.1.0...v6.4.0)
+
+--- updated-dependencies: - dependency-name: bleach dependency-version: 6.4.0
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump jupyter-server from 1.17.0 to 2.20.0
+  ([`274a1c2`](https://github.com/omadson/fuzzy-c-means/commit/274a1c2dd60e962b6f51439279a1f6885b40d1f6))
+
+Bumps [jupyter-server](https://github.com/jupyter-server/jupyter_server) from 1.17.0 to 2.20.0. -
+  [Release notes](https://github.com/jupyter-server/jupyter_server/releases) -
+  [Changelog](https://github.com/jupyter-server/jupyter_server/blob/main/CHANGELOG.md) -
+  [Commits](https://github.com/jupyter-server/jupyter_server/compare/v1.17.0...v2.20.0)
+
+--- updated-dependencies: - dependency-name: jupyter-server dependency-version: 2.20.0
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump pillow from 9.0.1 to 12.2.0
+  ([`13827d1`](https://github.com/omadson/fuzzy-c-means/commit/13827d109c115c414bb4273d6fe318abdbb38cde))
+
+Bumps [pillow](https://github.com/python-pillow/Pillow) from 9.0.1 to 12.2.0. - [Release
+  notes](https://github.com/python-pillow/Pillow/releases) -
+  [Changelog](https://github.com/python-pillow/Pillow/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/python-pillow/Pillow/compare/9.0.1...12.2.0)
+
+--- updated-dependencies: - dependency-name: pillow dependency-version: 12.2.0
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+- **deps**: Bump urllib3 from 1.26.8 to 2.7.0
+  ([`0358053`](https://github.com/omadson/fuzzy-c-means/commit/03580534d6567624d608544359776796f7a10a02))
+
+Bumps [urllib3](https://github.com/urllib3/urllib3) from 1.26.8 to 2.7.0. - [Release
+  notes](https://github.com/urllib3/urllib3/releases) -
+  [Changelog](https://github.com/urllib3/urllib3/blob/main/CHANGES.rst) -
+  [Commits](https://github.com/urllib3/urllib3/compare/1.26.8...2.7.0)
+
+--- updated-dependencies: - dependency-name: urllib3 dependency-version: 2.7.0
+
+dependency-type: direct:production ...
+
+Signed-off-by: dependabot[bot] <support@github.com>
+
+
 ## v2.0.2 (2026-07-19)
 
 ### Bug Fixes
