@@ -53,3 +53,13 @@ def test_predict_shape_and_range():
     assert labels.min() >= 0
     assert labels.max() < n_clusters
     assert np.array_equal(labels, fcm.predict(X))
+
+
+def test_minkowski_distance():
+    """Test if minkowski distance uses absolute differences"""
+    A = np.array([[1.0, -1.0], [3.0, 4.0]])
+    B = np.array([[0.0, 0.0]])
+    assert np.allclose(FCM._minkowski(A, B, 1.0), [[2.0], [7.0]])
+    assert np.allclose(
+        FCM._minkowski(A, B, 3.0), [[2 ** (1 / 3)], [91 ** (1 / 3)]]
+    )
