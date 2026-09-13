@@ -151,7 +151,7 @@ class FCM(BaseModel):
     @staticmethod
     def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
         """Compute the minkowski distance between two matrices"""
-        return (np.einsum("ijk->ij", (A[:, None, :] - B) ** p)) ** (1 / p)
+        return np.einsum("ijk->ij", np.abs(A[:, None, :] - B) ** p) ** (1 / p)
 
     @staticmethod
     def _cosine_similarity(A: NDArray, B: NDArray) -> NDArray:
