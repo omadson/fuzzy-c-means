@@ -1,4 +1,4 @@
-anyio==3.5.0; python_full_version >= "3.6.2" and python_version >= "3.7"
+anyio==4.14.2; python_full_version >= "3.6.2" and python_version >= "3.7"
 appnope==0.1.2; sys_platform == "darwin" and python_version >= "3.8" and python_full_version >= "3.6.2" and platform_system == "Darwin"
 argon2-cffi-bindings==21.2.0; python_version >= "3.7"
 argon2-cffi==21.3.0; python_version >= "3.7"
