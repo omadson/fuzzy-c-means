@@ -1,6 +1,39 @@
 # CHANGELOG
 
 
+## v2.2.0 (2026-09-30)
+
+### Chores
+
+- Drop stale requirements files and commitlint, build docs with uv
+  ([`0e6688d`](https://github.com/omadson/fuzzy-c-means/commit/0e6688d2c8b2e6ed05056ce32115d1da958507a1))
+
+- Drop unused readme link and shallow-clone history in test jobs
+  ([`3e0fa8c`](https://github.com/omadson/fuzzy-c-means/commit/3e0fa8cddffedee6d53fad9dff3921010fddefcd))
+
+- Remove dead mypy, coverage and interrogate config, ignore mkdocs site/
+  ([`63eb585`](https://github.com/omadson/fuzzy-c-means/commit/63eb5850321231ec35dcb0a285be2c161e37480d))
+
+- Remove unused cli helper and stale poetry kernel metadata
+  ([`693a885`](https://github.com/omadson/fuzzy-c-means/commit/693a885c171d142d8d20323a88b463553decf028))
+
+- Sync uv.lock with version 2.1.0
+  ([`2730041`](https://github.com/omadson/fuzzy-c-means/commit/2730041d5aef453ec381d31ac0f30aed012d1fac))
+
+- Use the interrogate threshold from pyproject in pre-commit
+  ([`5633b2a`](https://github.com/omadson/fuzzy-c-means/commit/5633b2a346ebcdc7df6451fce173aca805d658dd))
+
+### Documentation
+
+- Add missing mathjax config, drop polyfill.io, list distances notebook in nav
+  ([`157a160`](https://github.com/omadson/fuzzy-c-means/commit/157a1600345d26f722094e92f00c40f59a364a37))
+
+### Features
+
+- Add fuzzy validity indices and select_n_clusters
+  ([`48c69f5`](https://github.com/omadson/fuzzy-c-means/commit/48c69f520d37d56a3a0b1239fd5dbe4f8eba1c5d))
+
+
 ## v2.1.0 (2026-09-30)
 
 ### Chores

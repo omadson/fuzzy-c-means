@@ -11,4 +11,4 @@ from .pcm import PCM
 from .validation import (davies_bouldin, fukuyama_sugeno, fuzzy_silhouette,
                          select_n_clusters, xie_beni)
 
-__version__ = "2.1.0"
+__version__ = "2.2.0"
