@@ -8,4 +8,4 @@ from .kfcm import KFCM
 from .main import FCM
 from .pcm import PCM
 
-__version__ = "2.0.2"
+__version__ = "2.0.3"
