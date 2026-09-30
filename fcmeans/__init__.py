@@ -1,5 +1,6 @@
 # flake8: noqa
 """fuzzy-c-means - A simple implementation of Fuzzy C-means algorithm."""
+from .fcmedoids import FCMedoids
 from .fpcm import FPCM
 from .gg import GG
 from .gk import GK

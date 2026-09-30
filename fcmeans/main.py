@@ -105,8 +105,15 @@ class FCM(BaseModel):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        temp = self._distances(X) ** (2 / (self.m - 1))
-        return 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
+        d = self._distances(X)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            temp = d ** (2 / (self.m - 1))
+            u = 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
+        # a sample on a center belongs only to it (evenly split on ties)
+        zero = d == 0
+        rows = zero.any(axis=1)
+        u[rows] = zero[rows] / zero[rows].sum(axis=1, keepdims=True)
+        return u
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def predict(self, X: NDArray) -> NDArray:

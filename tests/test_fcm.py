@@ -53,3 +53,10 @@ def test_predict_shape_and_range():
     assert labels.min() >= 0
     assert labels.max() < n_clusters
     assert np.array_equal(labels, fcm.predict(X))
+
+
+def test_sample_on_a_center_belongs_only_to_it():
+    """Test if zero distance gives a crisp membership instead of NaN"""
+    fcm = FCM(n_clusters=3, random_state=42)
+    fcm.fit(X)
+    assert np.allclose(fcm.soft_predict(fcm.centers), np.eye(3))

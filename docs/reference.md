@@ -9,3 +9,5 @@
 ::: fcmeans.GK
 
 ::: fcmeans.GG
+
+::: fcmeans.FCMedoids
