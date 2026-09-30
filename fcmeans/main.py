@@ -67,6 +67,10 @@ class FCM(BaseModel):
         """Update `_centers` from the current partition matrix `u`."""
         self._centers = FCM._next_centers(X, self.u, self.m)
 
+    def _distances(self, X: NDArray) -> NDArray:
+        """Distance from each sample in X to each center."""
+        return FCM._dist(X, self._centers, self.distance, self.distance_params)
+
     def _update_u(self, X: NDArray) -> None:
         """Update `u` from the current centers."""
         self.u = self.soft_predict(X)
@@ -101,9 +105,7 @@ class FCM(BaseModel):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        temp = FCM._dist(
-            X, self._centers, self.distance, self.distance_params
-        ) ** (2 / (self.m - 1))
+        temp = self._distances(X) ** (2 / (self.m - 1))
         return 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
 
     @validate_call(config=dict(arbitrary_types_allowed=True))

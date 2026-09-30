@@ -12,6 +12,7 @@ nav:
     - Algorithms:
         - 'Possibilistic C-means': 'algorithms/pcm.md'
         - 'Fuzzy-possibilistic C-means': 'algorithms/fpcm.md'
+        - 'Gustafson-Kessel': 'algorithms/gk.md'
     - Examples:
         - 'Basic clustering': 'examples/00 - Basic clustering.ipynb'
         - 'Colour quantization': 'examples/01 - Colour quantization.ipynb'

@@ -5,3 +5,5 @@
 ::: fcmeans.PCM
 
 ::: fcmeans.FPCM
+
+::: fcmeans.GK
