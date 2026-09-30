@@ -9,6 +9,8 @@ nav:
     - 'User Guide':
         - 'Command Line Interface': 'CLI.md'
         - 'Reference': 'reference.md'
+    - Algorithms:
+        - 'Possibilistic C-means': 'algorithms/pcm.md'
     - Examples:
         - 'Basic clustering': 'examples/00 - Basic clustering.ipynb'
         - 'Colour quantization': 'examples/01 - Colour quantization.ipynb'
