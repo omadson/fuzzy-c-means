@@ -89,11 +89,8 @@ upload_to_vcs_release = true
 [tool.semantic_release.changelog]
 changelog_file = "docs/CHANGELOG.md"
 
-[mypy]
-plugins = ['numpy.typing.mypy_plugin']
-
 [tool.coverage.report]
-omit = ['fcmeans/my_typing.py', 'fcmeans/__init__.py', 'fcmeans/cli.py']
+omit = ['fcmeans/__init__.py', 'fcmeans/cli.py']
 fail_under = 70
 
 [tool.interrogate]
@@ -108,7 +105,7 @@ ignore-nested-functions = false
 ignore-nested-classes = true
 ignore-setters = false
 fail-under = 95
-exclude = ["setup.py", "docs", "build"]
+exclude = ["docs", "build"]
 ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
 verbose = 2
 quiet = false
