@@ -52,9 +52,8 @@ class GK(FCM):
             )
         return v
 
-    def _update_centers(self, X: NDArray) -> None:
-        """Update `_centers` and the norm matrices `A_i`."""
-        super()._update_centers(X)
+    def _covariances(self, X: NDArray) -> NDArray:
+        """Regularized fuzzy covariance matrix of each cluster."""
         diff = X[:, None, :] - self._centers
         um = self.u**self.m
         p = X.shape[1]
@@ -63,6 +62,17 @@ class GK(FCM):
         F += (
             self.reg * np.trace(F, axis1=1, axis2=2)[:, None, None] / p
         ) * np.eye(p)
+        return F
+
+    def _update_centers(self, X: NDArray) -> None:
+        """Update `_centers` and the cluster shape (see `_update_shape`)."""
+        super()._update_centers(X)
+        self._update_shape(X)
+
+    def _update_shape(self, X: NDArray) -> None:
+        """Update the norm matrices `A_i` from the current centers."""
+        F = self._covariances(X)
+        p = X.shape[1]
         _, logdet = np.linalg.slogdet(F)
         scale = np.exp(logdet / p)[:, None, None]
         self.norm_matrices = scale * np.linalg.inv(F)

@@ -7,3 +7,5 @@
 ::: fcmeans.FPCM
 
 ::: fcmeans.GK
+
+::: fcmeans.GG
