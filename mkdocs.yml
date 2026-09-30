@@ -15,6 +15,7 @@ nav:
         - 'Gustafson-Kessel': 'algorithms/gk.md'
         - 'Gath-Geva': 'algorithms/gg.md'
         - 'Fuzzy C-medoids': 'algorithms/fcmedoids.md'
+        - 'Kernel FCM': 'algorithms/kfcm.md'
     - Examples:
         - 'Basic clustering': 'examples/00 - Basic clustering.ipynb'
         - 'Colour quantization': 'examples/01 - Colour quantization.ipynb'

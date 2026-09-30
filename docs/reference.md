@@ -11,3 +11,5 @@
 ::: fcmeans.GG
 
 ::: fcmeans.FCMedoids
+
+::: fcmeans.KFCM

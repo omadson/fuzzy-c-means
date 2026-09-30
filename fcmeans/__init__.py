@@ -4,6 +4,7 @@ from .fcmedoids import FCMedoids
 from .fpcm import FPCM
 from .gg import GG
 from .gk import GK
+from .kfcm import KFCM
 from .main import FCM
 from .pcm import PCM
 
