@@ -57,6 +57,16 @@ class FCM(BaseModel):
     )
     distance_params: Optional[dict] = {}
 
+    def _init_u(self, X: NDArray) -> None:
+        """Randomly initialize the fuzzy partition matrix `u`."""
+        self.rng = np.random.default_rng(self.random_state)
+        u = self.rng.uniform(size=(X.shape[0], self.n_clusters))
+        self.u = u / u.sum(axis=1, keepdims=True)
+
+    def _update_centers(self, X: NDArray) -> None:
+        """Update `_centers` from the current partition matrix `u`."""
+        self._centers = FCM._next_centers(X, self.u, self.m)
+
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
         """Train the fuzzy-c-means model
@@ -64,17 +74,12 @@ class FCM(BaseModel):
         Args:
             X (NDArray): Training instances to cluster.
         """
-        self.rng = np.random.default_rng(self.random_state)
-        n_samples = X.shape[0]
-        self.u = self.rng.uniform(size=(n_samples, self.n_clusters))
-        self.u = self.u / np.tile(
-            self.u.sum(axis=1)[np.newaxis].T, self.n_clusters
-        )
+        self._init_u(X)
         for _ in tqdm.tqdm(
             range(self.max_iter), desc="Training", disable=not self.verbose
         ):
             u_old = self.u.copy()
-            self._centers = FCM._next_centers(X, self.u, self.m)
+            self._update_centers(X)
             self.u = self.soft_predict(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
