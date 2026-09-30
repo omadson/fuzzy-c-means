@@ -8,6 +8,7 @@ nav:
     - 'Getting started': 'getting-started.md'
     - 'User Guide':
         - 'Command Line Interface': 'CLI.md'
+        - 'Validity indices': 'validation.md'
         - 'Reference': 'reference.md'
     - Algorithms:
         - 'Possibilistic C-means': 'algorithms/pcm.md'

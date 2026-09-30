@@ -7,5 +7,8 @@ from .gk import GK
 from .kfcm import KFCM
 from .main import FCM
 from .pcm import PCM
+# fmt: off
+from .validation import (davies_bouldin, fukuyama_sugeno, fuzzy_silhouette,
+                         select_n_clusters, xie_beni)
 
 __version__ = "2.1.0"
