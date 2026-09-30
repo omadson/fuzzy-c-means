@@ -54,6 +54,7 @@ dev = [
     "mkdocs>=1.5.3,<2",
     "mkdocs-material>=9.5.14,<10",
     "mkdocs-jupyter>=0.24.6,<0.25",
+    "mkdocs-autorefs>=1.0.1,<1.1",
     "mkdocstrings>=0.24.1,<0.25",
     "mkdocstrings-python-legacy>=0.2.3,<0.3",
 ]

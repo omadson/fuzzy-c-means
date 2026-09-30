@@ -57,6 +57,24 @@ class FCM(BaseModel):
     )
     distance_params: Optional[dict] = {}
 
+    def _init_u(self, X: NDArray) -> None:
+        """Randomly initialize the fuzzy partition matrix `u`."""
+        self.rng = np.random.default_rng(self.random_state)
+        u = self.rng.uniform(size=(X.shape[0], self.n_clusters))
+        self.u = u / u.sum(axis=1, keepdims=True)
+
+    def _update_centers(self, X: NDArray) -> None:
+        """Update `_centers` from the current partition matrix `u`."""
+        self._centers = FCM._next_centers(X, self.u, self.m)
+
+    def _distances(self, X: NDArray) -> NDArray:
+        """Distance from each sample in X to each center."""
+        return FCM._dist(X, self._centers, self.distance, self.distance_params)
+
+    def _update_u(self, X: NDArray) -> None:
+        """Update `u` from the current centers."""
+        self.u = self.soft_predict(X)
+
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
         """Train the fuzzy-c-means model
@@ -64,18 +82,13 @@ class FCM(BaseModel):
         Args:
             X (NDArray): Training instances to cluster.
         """
-        self.rng = np.random.default_rng(self.random_state)
-        n_samples = X.shape[0]
-        self.u = self.rng.uniform(size=(n_samples, self.n_clusters))
-        self.u = self.u / np.tile(
-            self.u.sum(axis=1)[np.newaxis].T, self.n_clusters
-        )
+        self._init_u(X)
         for _ in tqdm.tqdm(
             range(self.max_iter), desc="Training", disable=not self.verbose
         ):
             u_old = self.u.copy()
-            self._centers = FCM._next_centers(X, self.u, self.m)
-            self.u = self.soft_predict(X)
+            self._update_centers(X)
+            self._update_u(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
@@ -92,10 +105,15 @@ class FCM(BaseModel):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        temp = FCM._dist(
-            X, self._centers, self.distance, self.distance_params
-        ) ** (2 / (self.m - 1))
-        return 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
+        d = self._distances(X)
+        with np.errstate(divide="ignore", invalid="ignore"):
+            temp = d ** (2 / (self.m - 1))
+            u = 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
+        # a sample on a center belongs only to it (evenly split on ties)
+        zero = d == 0
+        rows = zero.any(axis=1)
+        u[rows] = zero[rows] / zero[rows].sum(axis=1, keepdims=True)
+        return u
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def predict(self, X: NDArray) -> NDArray:
