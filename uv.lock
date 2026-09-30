@@ -1496,6 +1496,7 @@ dev = [
     { name = "matplotlib", version = "3.10.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
     { name = "matplotlib", version = "3.11.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
     { name = "mkdocs" },
+    { name = "mkdocs-autorefs" },
     { name = "mkdocs-jupyter" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings" },
@@ -1526,6 +1527,7 @@ dev = [
     { name = "jupyterlab", specifier = ">=4.1.5,<5" },
     { name = "matplotlib", specifier = ">=3.8.3,<4" },
     { name = "mkdocs", specifier = ">=1.5.3,<2" },
+    { name = "mkdocs-autorefs", specifier = ">=1.0.1,<1.1" },
     { name = "mkdocs-jupyter", specifier = ">=0.24.6,<0.25" },
     { name = "mkdocs-material", specifier = ">=9.5.14,<10" },
     { name = "mkdocstrings", specifier = ">=0.24.1,<0.25" },
@@ -3157,7 +3159,7 @@ wheels = [
 
 [[package]]
 name = "mkdocs-autorefs"
-version = "1.4.4"
+version = "1.0.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "markdown", version = "3.9", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
@@ -3165,9 +3167,9 @@ dependencies = [
     { name = "markupsafe" },
     { name = "mkdocs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/52/c0/f641843de3f612a6b48253f39244165acff36657a91cc903633d456ae1ac/mkdocs_autorefs-1.4.4.tar.gz", hash = "sha256:d54a284f27a7346b9c38f1f852177940c222da508e66edc816a0fa55fc6da197", size = 56588, upload-time = "2026-02-10T15:23:55.105Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/75/0ced93354fd9df40531c548f07d6462912eea9519e8cd78a8e6b42d73c4a/mkdocs_autorefs-1.0.1.tar.gz", hash = "sha256:f684edf847eced40b570b57846b15f0bf57fb93ac2c510450775dcf16accb971", size = 17743, upload-time = "2024-02-29T15:52:19.753Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/de/a3e710469772c6a89595fc52816da05c1e164b4c866a89e3cb82fb1b67c5/mkdocs_autorefs-1.4.4-py3-none-any.whl", hash = "sha256:834ef5408d827071ad1bc69e0f39704fa34c7fc05bc8e1c72b227dfdc5c76089", size = 25530, upload-time = "2026-02-10T15:23:53.817Z" },
+    { url = "https://files.pythonhosted.org/packages/f6/01/d413c98335ed75d8c211afb91320811366d55fb0ef7f4b01b9ab19630eac/mkdocs_autorefs-1.0.1-py3-none-any.whl", hash = "sha256:aacdfae1ab197780fb7a2dac92ad8a3d8f7ca8049a9cbe56a4218cd52e8da570", size = 13444, upload-time = "2024-02-29T15:51:52.989Z" },
 ]
 
 [[package]]
@@ -3264,16 +3266,15 @@ wheels = [
 
 [[package]]
 name = "mkdocstrings-python-legacy"
-version = "0.2.4"
+version = "0.2.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "mkdocs-autorefs" },
     { name = "mkdocstrings" },
     { name = "pytkdocs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2a/8a/04c14190a64f29d4f85a6ceee0701a11d6899db85ffc15beb23a90437804/mkdocstrings_python_legacy-0.2.4.tar.gz", hash = "sha256:36d160ac7af5a3cec764eeb66522f42a116088a41289e04372592b91e14abbbc", size = 97213, upload-time = "2024-09-07T15:00:30.204Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c4/44/fdf5e9902e3ea8af04d45d80aef2f34140d1c13c2707bea9c2b69a74e063/mkdocstrings-python-legacy-0.2.3.tar.gz", hash = "sha256:3fb58fdabe19c6b52b8bb1d3bb1540b1cd527b562865468d6754e8cd1201050c", size = 18779, upload-time = "2022-05-28T16:02:50.123Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/05/10/5bfba474535450b07423df0a7e2b467148bbe83db15c509caba5472905a5/mkdocstrings_python_legacy-0.2.4-py3-none-any.whl", hash = "sha256:e2a05d9355500d8f596a0bfc2a5728af91300432def90bc605ed484b0052efa0", size = 27568, upload-time = "2024-09-07T15:00:28.526Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/82/24628a430d36ca0047d5582e2ce54644b52a1af618ef6db67ffcd413c6a5/mkdocstrings_python_legacy-0.2.3-py3-none-any.whl", hash = "sha256:1b04d71a4064b0bb8ea9448debab89868a752c7e7bfdd11de480dfbcb9751a00", size = 26498, upload-time = "2022-05-28T16:02:48.032Z" },
 ]
 
 [[package]]
