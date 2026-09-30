@@ -67,10 +67,6 @@ def delimiter_callback(value: str):
     )
 
 
-def _predict(data, model):
-    return model.predict(data)
-
-
 def _read_data(dataset_path, delimiter, quiet):
     typer.echo()
     if not quiet:
