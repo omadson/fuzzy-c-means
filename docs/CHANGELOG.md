@@ -1,9 +1,20 @@
 # CHANGELOG
 
 
+## v2.1.0 (2026-09-30)
+
+### Chores
+
+- Sync uv.lock with version 2.0.3
+  ([`a1fdf3a`](https://github.com/omadson/fuzzy-c-means/commit/a1fdf3adecad66f1a5e94e68a847020d366b5d87))
+
+
 ## v2.0.3 (2026-09-13)
 
 ### Bug Fixes
+
+- Pin mkdocs-autorefs to a version compatible with mkdocstrings 0.24
+  ([`3b4f8a6`](https://github.com/omadson/fuzzy-c-means/commit/3b4f8a6e0661fc435e610ffde0fa398866b043d1))
 
 - Use absolute differences in minkowski distance
   ([`d59b3d4`](https://github.com/omadson/fuzzy-c-means/commit/d59b3d4c60ef9330952b56c06159eb7e88a8c1d7))
@@ -64,6 +75,36 @@ Bumps [urllib3](https://github.com/urllib3/urllib3) from 1.26.8 to 2.7.0. - [Rel
 dependency-type: direct:production ...
 
 Signed-off-by: dependabot[bot] <support@github.com>
+
+### Chores
+
+- Sync uv.lock with version 2.0.2
+  ([`ecf9337`](https://github.com/omadson/fuzzy-c-means/commit/ecf9337eaff78ba14587cd8ef00fd4762e5f7d11))
+
+### Features
+
+- Add fuzzy c-medoids (FCMedoids) and handle zero distance in soft_predict
+  ([`edc28f7`](https://github.com/omadson/fuzzy-c-means/commit/edc28f7ce59554acee58a3afec33af220b7184eb))
+
+- Add fuzzy-possibilistic c-means (FPCM)
+  ([`0b77af1`](https://github.com/omadson/fuzzy-c-means/commit/0b77af14729867b69a206a1076692ab3440c70ca))
+
+- Add Gath-Geva clustering (GG)
+  ([`10f03ac`](https://github.com/omadson/fuzzy-c-means/commit/10f03ac4270dbd6fd0f3c2dde72e58a5c825c747))
+
+- Add Gustafson-Kessel clustering (GK)
+  ([`9b30048`](https://github.com/omadson/fuzzy-c-means/commit/9b30048bd4fbbe0f20c8cc9beb09268a0de188dd))
+
+- Add kernel fuzzy c-means (KFCM)
+  ([`7e62313`](https://github.com/omadson/fuzzy-c-means/commit/7e623139a9b257561613f5dfcd9502122e3e54c4))
+
+- Add possibilistic c-means (PCM)
+  ([`e4de1ec`](https://github.com/omadson/fuzzy-c-means/commit/e4de1ec35972a7572315836e9bca77f8985265e7))
+
+### Refactoring
+
+- Split FCM.fit into _init_u and _update_centers hooks
+  ([`0e951be`](https://github.com/omadson/fuzzy-c-means/commit/0e951be5a9744b0964a6b9addc1ee18db9d8e8f6))
 
 
 ## v2.0.2 (2026-07-19)
