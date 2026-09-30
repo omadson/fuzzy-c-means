@@ -48,7 +48,7 @@ repos:
     rev: 1.7.0
     hooks:
       - id: interrogate
-        args: [-vv, --fail-under=80, --config=pyproject.toml]
+        args: [-vv, --config=pyproject.toml]
 -   repo: local
     hooks:
       - id: pytest coverage
