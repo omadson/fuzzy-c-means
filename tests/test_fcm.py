@@ -61,7 +61,7 @@ def test_sample_on_a_center_belongs_only_to_it():
     fcm.fit(X)
     assert np.allclose(fcm.soft_predict(fcm.centers), np.eye(3))
 
-    
+
 def test_minkowski_distance():
     """Test if minkowski distance uses absolute differences"""
     A = np.array([[1.0, -1.0], [3.0, 4.0]])
