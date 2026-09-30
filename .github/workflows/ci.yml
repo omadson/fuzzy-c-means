@@ -9,7 +9,14 @@ jobs:
     - uses: actions/checkout@v5
       with:
         fetch-depth: '0'
-    - uses: wagoid/commitlint-github-action@v6.2.1
+    - uses: astral-sh/setup-uv@v8.3.2
+    - name: Check commit messages
+      run: |
+        for sha in $(git rev-list --no-merges "origin/${{ github.base_ref }}..HEAD"); do
+          git log -1 --format=%B "$sha" > "$RUNNER_TEMP/msg"
+          uvx pre-commit run conventional-pre-commit \
+            --hook-stage commit-msg --commit-msg-filename "$RUNNER_TEMP/msg"
+        done
 
   tests:
     runs-on: ubuntu-latest
