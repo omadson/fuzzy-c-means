@@ -13,3 +13,5 @@
 ::: fcmeans.FCMedoids
 
 ::: fcmeans.KFCM
+
+::: fcmeans.validation
