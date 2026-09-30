@@ -67,6 +67,10 @@ class FCM(BaseModel):
         """Update `_centers` from the current partition matrix `u`."""
         self._centers = FCM._next_centers(X, self.u, self.m)
 
+    def _update_u(self, X: NDArray) -> None:
+        """Update `u` from the current centers."""
+        self.u = self.soft_predict(X)
+
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def fit(self, X: NDArray) -> None:
         """Train the fuzzy-c-means model
@@ -80,7 +84,7 @@ class FCM(BaseModel):
         ):
             u_old = self.u.copy()
             self._update_centers(X)
-            self.u = self.soft_predict(X)
+            self._update_u(X)
             # Stopping rule
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
