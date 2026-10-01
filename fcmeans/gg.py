@@ -50,6 +50,7 @@ class GG(GK):
             m=self.m,
             error=self.error,
             random_state=self.random_state,
+            init=self.init,
             reg=self.reg,
         )
         gk.fit(X)

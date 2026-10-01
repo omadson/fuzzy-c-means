@@ -41,6 +41,7 @@ class PCM(FCM):
             m=self.m,
             error=self.error,
             random_state=self.random_state,
+            init=self.init,
             distance=self.distance,
             distance_params=self.distance_params,
         )

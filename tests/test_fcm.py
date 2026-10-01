@@ -70,3 +70,38 @@ def test_minkowski_distance():
     assert np.allclose(
         FCM._minkowski(A, B, 3.0), [[2 ** (1 / 3)], [91 ** (1 / 3)]]
     )
+
+
+def test_init_rejects_unknown_value():
+    """Test if `init` only accepts the implemented strategies"""
+    with pytest.raises(ValueError):
+        FCM(init="kmeans")
+
+
+def test_kmeans_plusplus_seeds_every_blob():
+    """Test if k-means++ puts one seed in each well-separated blob"""
+    rng = np.random.default_rng(0)
+    blobs = np.array([[0.0, 0.0], [100.0, 0.0], [0.0, 100.0]])
+    data = np.vstack([c + rng.normal(size=(30, 2)) for c in blobs])
+    for seed in range(10):
+        fcm = FCM(n_clusters=3, init="k-means++", random_state=seed)
+        fcm.fit(data)
+        assert np.array_equal(np.sort(fcm.predict(blobs)), np.arange(3)), seed
+
+
+def test_kmeans_plusplus_u_and_reproducibility():
+    """Test if the seeded partition is valid and set by random_state"""
+    a = FCM(n_clusters=3, init="k-means++", random_state=7)
+    b = FCM(n_clusters=3, init="k-means++", random_state=7)
+    a._init_u(X)
+    b._init_u(X)
+    assert np.allclose(a.u.sum(axis=1), 1.0)
+    assert np.array_equal(a.u, b.u)
+    assert (a._centers[:, None] == X).all(axis=2).any(axis=1).all()
+
+
+def test_kmeans_plusplus_duplicated_points():
+    """Test if identical samples (zero total cost) do not break seeding"""
+    fcm = FCM(n_clusters=3, init="k-means++", random_state=0)
+    fcm.fit(np.ones((10, 2)))
+    assert not np.isnan(fcm.u).any()

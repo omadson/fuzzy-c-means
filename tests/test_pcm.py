@@ -76,3 +76,12 @@ def test_random_state_reproducible():
     a.fit(X)
     b.fit(X)
     assert np.array_equal(a.centers, b.centers)
+
+
+def test_init_is_forwarded_to_the_fcm_run():
+    """Test if `init` reaches the FCM run that initializes PCM"""
+    a = PCM(n_clusters=3, init="k-means++", random_state=1)
+    b = PCM(n_clusters=3, random_state=1)
+    a.fit(X)
+    b.fit(X)
+    assert not np.allclose(a.u, b.u)

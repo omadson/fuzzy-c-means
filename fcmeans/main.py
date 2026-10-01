@@ -1,7 +1,7 @@
 """Fuzzy C-means clustering implementation."""
 
 from enum import Enum
-from typing import Callable, Optional, Union
+from typing import Callable, Literal, Optional, Union
 
 import numpy as np
 import tqdm
@@ -33,6 +33,12 @@ class FCM(BaseModel):
         random_state (Optional[int]): Determines random number generation for
         centroid initialization.
         Use an int to make the randomness deterministic.
+        init (str): Initialization of the partition. `"random"` draws a
+        random fuzzy partition; `"k-means++"` seeds the centers with the
+        k-means++ rule (each new center is drawn with probability
+        proportional to its squared distance to the closest chosen one) and
+        derives the partition from them. Ignored by `FCMedoids`, which
+        always seeds with k-means++.
         trained (bool): Variable to store whether or not the model has been
         trained.
 
@@ -50,6 +56,7 @@ class FCM(BaseModel):
     m: float = Field(2.0, ge=1.0)
     error: float = Field(1e-5, ge=1e-9)
     random_state: Optional[int] = None
+    init: Literal["random", "k-means++"] = "random"
     trained: bool = False
     verbose: Optional[bool] = False
     distance: Optional[Union[DistanceOptions, Callable]] = (
@@ -58,10 +65,37 @@ class FCM(BaseModel):
     distance_params: Optional[dict] = {}
 
     def _init_u(self, X: NDArray) -> None:
-        """Randomly initialize the fuzzy partition matrix `u`."""
+        """Initialize the fuzzy partition matrix `u`."""
         self.rng = np.random.default_rng(self.random_state)
+        if self.init == "k-means++":
+            self._centers = self._seed_centers(X)
+            self.u = FCM._memberships(
+                FCM._dist(
+                    X, self._centers, self.distance, self.distance_params
+                ),
+                self.m,
+            )
+            return
         u = self.rng.uniform(size=(X.shape[0], self.n_clusters))
         self.u = u / u.sum(axis=1, keepdims=True)
+
+    def _seed_centers(self, X: NDArray) -> NDArray:
+        """Pick `n_clusters` samples with the k-means++ rule."""
+        n = X.shape[0]
+        chosen = [self.rng.integers(n)]
+        closest = self._sq_dist_to(X, chosen[0])
+        for _ in range(1, self.n_clusters):
+            total = closest.sum()
+            chosen.append(
+                self.rng.choice(n, p=closest / total if total > 0 else None)
+            )
+            closest = np.minimum(closest, self._sq_dist_to(X, chosen[-1]))
+        return X[chosen]
+
+    def _sq_dist_to(self, X: NDArray, i: int) -> NDArray:
+        """Squared distance from every sample to sample `i`."""
+        d = FCM._dist(X, X[[i]], self.distance, self.distance_params)
+        return d[:, 0] ** 2
 
     def _update_centers(self, X: NDArray) -> None:
         """Update `_centers` from the current partition matrix `u`."""
@@ -105,15 +139,7 @@ class FCM(BaseModel):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        d = self._distances(X)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            temp = d ** (2 / (self.m - 1))
-            u = 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
-        # a sample on a center belongs only to it (evenly split on ties)
-        zero = d == 0
-        rows = zero.any(axis=1)
-        u[rows] = zero[rows] / zero[rows].sum(axis=1, keepdims=True)
-        return u
+        return FCM._memberships(self._distances(X), self.m)
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def predict(self, X: NDArray) -> NDArray:
@@ -137,6 +163,18 @@ class FCM(BaseModel):
             raise ReferenceError(
                 "You need to train the model. Run `.fit()` method to this."
             )
+
+    @staticmethod
+    def _memberships(d: NDArray, m: float) -> NDArray:
+        """Fuzzy partition from the sample-to-center distances `d`."""
+        with np.errstate(divide="ignore", invalid="ignore"):
+            temp = d ** (2 / (m - 1))
+            u = 1.0 / (temp * (1.0 / temp).sum(axis=1, keepdims=True))
+        # a sample on a center belongs only to it (evenly split on ties)
+        zero = d == 0
+        rows = zero.any(axis=1)
+        u[rows] = zero[rows] / zero[rows].sum(axis=1, keepdims=True)
+        return u
 
     @staticmethod
     def _dist(
