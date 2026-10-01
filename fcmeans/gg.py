@@ -50,6 +50,7 @@ class GG(GK):
             m=self.m,
             error=self.error,
             random_state=self.random_state,
+            init=self.init,
             reg=self.reg,
         )
         gk.fit(X)
@@ -63,6 +64,16 @@ class GG(GK):
         self.priors = um.sum(axis=0) / um.sum()
         self._logdet = np.linalg.slogdet(self.covariances)[1]
         self._inv_cov = np.linalg.inv(self.covariances)
+
+    def _objective(self, X: NDArray) -> float:
+        """Log of the GG objective (the objective itself can overflow)."""
+        diff = X[:, None, :] - self._centers
+        mahalanobis = np.einsum("ncp,cpq,ncq->nc", diff, self._inv_cov, diff)
+        log_d2 = 0.5 * self._logdet - np.log(self.priors) + 0.5 * mahalanobis
+        with np.errstate(divide="ignore"):
+            a = self.m * np.log(self.u) + log_d2
+        top = a.max()
+        return float(top + np.log(np.exp(a - top).sum()))
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def soft_predict(self, X: NDArray) -> NDArray:

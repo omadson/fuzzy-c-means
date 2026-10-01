@@ -76,3 +76,21 @@ def test_random_state_reproducible():
     a.fit(X)
     b.fit(X)
     assert np.array_equal(a.centers, b.centers)
+
+
+def test_init_is_forwarded_to_the_fcm_run():
+    """Test if `init` reaches the FCM run that initializes PCM"""
+    a = PCM(n_clusters=3, init="k-means++", random_state=1)
+    b = PCM(n_clusters=3, random_state=1)
+    a.fit(X)
+    b.fit(X)
+    assert not np.allclose(a.u, b.u)
+
+
+def test_n_init_does_not_worsen_the_objective():
+    """Test if n_init > 1 never ends above the single run (PCM objective)"""
+    single = PCM(n_clusters=3, random_state=2)
+    multi = PCM(n_clusters=3, random_state=2, n_init=5)
+    single.fit(X)
+    multi.fit(X)
+    assert multi._objective(X) <= single._objective(X) + 1e-9

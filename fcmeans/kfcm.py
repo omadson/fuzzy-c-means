@@ -59,6 +59,7 @@ class KFCM(FCM):
             m=self.m,
             error=self.error,
             random_state=self.random_state,
+            init=self.init,
         )
         fcm.fit(X)
         self.rng = fcm.rng

@@ -38,6 +38,11 @@ class FPCM(FCM):
         super()._init_u(X)
         self.t = self.u / self.u.sum(axis=0, keepdims=True)
 
+    def _objective(self, X: NDArray) -> float:
+        """Fuzzy and typicality weighted sum of squared distances."""
+        d = FCM._dist(X, self._centers, self.distance, self.distance_params)
+        return float(((self.u**self.m + self.t**self.eta) * d**2).sum())
+
     def _update_centers(self, X: NDArray) -> None:
         """Update `_centers` from the fuzzy and typicality weights."""
         w = self.u**self.m + self.t**self.eta
