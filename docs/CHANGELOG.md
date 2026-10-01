@@ -1,6 +1,22 @@
 # CHANGELOG
 
 
+## v2.3.0 (2026-10-01)
+
+### Documentation
+
+- Add time and memory benchmarks
+  ([`4113caf`](https://github.com/omadson/fuzzy-c-means/commit/4113cafbc162535a58c400e50a76bef41d7e5842))
+
+### Features
+
+- Add k-means++ initialization via init parameter
+  ([`23a9e3d`](https://github.com/omadson/fuzzy-c-means/commit/23a9e3d58b69d4899a70043b038aa17b86f27140))
+
+- Add n_init for multiple restarts keeping the best objective
+  ([`6281eab`](https://github.com/omadson/fuzzy-c-means/commit/6281eab9a34c24aba71a09326f6b28842eba693e))
+
+
 ## v2.2.0 (2026-09-30)
 
 ### Chores
