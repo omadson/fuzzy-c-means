@@ -53,6 +53,14 @@ class PCM(FCM):
         d2 = FCM._dist(X, self._centers, self.distance, self.distance_params)
         self.eta = (um * d2**2).sum(axis=0) / um.sum(axis=0)
 
+    def _objective(self, X: NDArray) -> float:
+        """PCM objective: weighted distances plus the `eta` penalty."""
+        d = FCM._dist(X, self._centers, self.distance, self.distance_params)
+        um = self.u**self.m
+        return float(
+            (um * d**2).sum() + (self.eta * (1 - self.u) ** self.m).sum()
+        )
+
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def soft_predict(self, X: NDArray) -> NDArray:
         """Typicality of each sample to each cluster

@@ -39,6 +39,10 @@ class FCM(BaseModel):
         proportional to its squared distance to the closest chosen one) and
         derives the partition from them. Ignored by `FCMedoids`, which
         always seeds with k-means++.
+        n_init (int): Number of independent runs, each from a different
+        initialization. The run with the lowest objective function is kept.
+        The first run uses `random_state` itself, so `n_init > 1` is never
+        worse than `n_init = 1` for the same `random_state`.
         trained (bool): Variable to store whether or not the model has been
         trained.
 
@@ -57,6 +61,7 @@ class FCM(BaseModel):
     error: float = Field(1e-5, ge=1e-9)
     random_state: Optional[int] = None
     init: Literal["random", "k-means++"] = "random"
+    n_init: int = Field(default=1, ge=1)
     trained: bool = False
     verbose: Optional[bool] = False
     distance: Optional[Union[DistanceOptions, Callable]] = (
@@ -109,13 +114,12 @@ class FCM(BaseModel):
         """Update `u` from the current centers."""
         self.u = self.soft_predict(X)
 
-    @validate_call(config=dict(arbitrary_types_allowed=True))
-    def fit(self, X: NDArray) -> None:
-        """Train the fuzzy-c-means model
+    def _objective(self, X: NDArray) -> float:
+        """Objective value (or a monotone transform) to compare runs."""
+        return float((self.u**self.m * self._distances(X) ** 2).sum())
 
-        Args:
-            X (NDArray): Training instances to cluster.
-        """
+    def _fit_once(self, X: NDArray) -> None:
+        """Run the algorithm once, from a single initialization."""
         self._init_u(X)
         for _ in tqdm.tqdm(
             range(self.max_iter), desc="Training", disable=not self.verbose
@@ -127,6 +131,40 @@ class FCM(BaseModel):
             if np.linalg.norm(self.u - u_old) < self.error:
                 break
         self.trained = True
+
+    @validate_call(config=dict(arbitrary_types_allowed=True))
+    def fit(self, X: NDArray) -> None:
+        """Train the fuzzy-c-means model
+
+        With `n_init > 1` the model is trained `n_init` times and the run
+        with the lowest objective function is kept.
+
+        Args:
+            X (NDArray): Training instances to cluster.
+        """
+        if self.n_init == 1:
+            self._fit_once(X)
+            return
+        seed = self.random_state
+        extra = np.random.default_rng(seed).integers(2**32, size=self.n_init)
+        seeds = [seed, *map(int, extra[1:])]
+        best: tuple[float, dict, dict] = (np.inf, {}, {})
+        try:
+            for self.random_state in seeds:
+                self._fit_once(X)
+                obj = np.nan_to_num(self._objective(X), nan=np.inf)
+                if obj < best[0] or not best[1]:
+                    # snapshot of every fitted attribute of this run
+                    best = (
+                        obj,
+                        dict(self.__dict__),
+                        dict(self.model_extra or {}),
+                    )
+            self.__dict__.update(best[1])
+            for name, value in best[2].items():
+                setattr(self, name, value)
+        finally:
+            self.random_state = seed
 
     @validate_call(config=dict(arbitrary_types_allowed=True))
     def soft_predict(self, X: NDArray) -> NDArray:

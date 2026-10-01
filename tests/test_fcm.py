@@ -105,3 +105,52 @@ def test_kmeans_plusplus_duplicated_points():
     fcm = FCM(n_clusters=3, init="k-means++", random_state=0)
     fcm.fit(np.ones((10, 2)))
     assert not np.isnan(fcm.u).any()
+
+
+def _objective(model, data):
+    return float((model.u**model.m * model._distances(data) ** 2).sum())
+
+
+def test_n_init_keeps_the_best_run():
+    """Test if n_init returns the lowest objective among its runs"""
+    n_init, seed = 8, 3
+    extra = np.random.default_rng(seed).integers(2**32, size=n_init)
+    seeds = [seed, *map(int, extra[1:])]
+    runs = []
+    for s in seeds:
+        single = FCM(n_clusters=4, random_state=s)
+        single.fit(X)
+        runs.append(_objective(single, X))
+    fcm = FCM(n_clusters=4, n_init=n_init, random_state=seed)
+    fcm.fit(X)
+    assert fcm.random_state == seed
+    assert fcm.trained
+    assert np.isclose(_objective(fcm, X), min(runs))
+    assert np.allclose(fcm.soft_predict(X), fcm.u)
+
+
+def test_n_init_is_reproducible():
+    """Test if the same random_state gives the same best run"""
+    a = FCM(n_clusters=3, n_init=5, random_state=0)
+    b = FCM(n_clusters=3, n_init=5, random_state=0)
+    a.fit(X)
+    b.fit(X)
+    assert np.array_equal(a.centers, b.centers)
+
+
+def test_n_init_must_be_positive():
+    """Test if n_init < 1 is rejected"""
+    with pytest.raises(ValueError):
+        FCM(n_init=0)
+
+
+def test_n_init_runs_on_every_variant():
+    """Test if each variant fits with n_init and keeps its fitted state"""
+    from fcmeans import FPCM, GG, GK, KFCM, PCM, FCMedoids
+
+    for cls in (FPCM, GG, GK, KFCM, PCM, FCMedoids):
+        model = cls(n_clusters=3, n_init=3, random_state=0)
+        model.fit(X)
+        assert model.trained
+        assert np.isfinite(model._objective(X)), cls
+        assert model.predict(X).shape == (X.shape[0],)
