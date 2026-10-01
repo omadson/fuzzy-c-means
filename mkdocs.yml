@@ -9,6 +9,7 @@ nav:
     - 'User Guide':
         - 'Command Line Interface': 'CLI.md'
         - 'Validity indices': 'validation.md'
+        - 'Benchmarks': 'benchmarks.md'
         - 'Reference': 'reference.md'
     - Algorithms:
         - 'Possibilistic C-means': 'algorithms/pcm.md'
