@@ -67,8 +67,7 @@ class GG(GK):
 
     def _objective(self, X: NDArray) -> float:
         """Log of the GG objective (the objective itself can overflow)."""
-        diff = X[:, None, :] - self._centers
-        mahalanobis = np.einsum("ncp,cpq,ncq->nc", diff, self._inv_cov, diff)
+        mahalanobis = self._mahalanobis(X, self._inv_cov)
         log_d2 = 0.5 * self._logdet - np.log(self.priors) + 0.5 * mahalanobis
         with np.errstate(divide="ignore"):
             a = self.m * np.log(self.u) + log_d2
@@ -86,8 +85,7 @@ class GG(GK):
             NDArray: Fuzzy partition array, returned as an array with
             n_samples rows and n_clusters columns.
         """
-        diff = X[:, None, :] - self._centers
-        mahalanobis = np.einsum("ncp,cpq,ncq->nc", diff, self._inv_cov, diff)
+        mahalanobis = self._mahalanobis(X, self._inv_cov)
         log_d2 = 0.5 * self._logdet - np.log(self.priors) + 0.5 * mahalanobis
         z = -log_d2 / (self.m - 1)
         z -= z.max(axis=1, keepdims=True)
