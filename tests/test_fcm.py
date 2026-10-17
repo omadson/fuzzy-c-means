@@ -154,3 +154,19 @@ def test_n_init_runs_on_every_variant():
         assert model.trained
         assert np.isfinite(model._objective(X)), cls
         assert model.predict(X).shape == (X.shape[0],)
+
+
+def test_euclidean_matches_direct_formula_far_from_origin():
+    """Test if the matmul distance does not lose precision with an offset"""
+    rng = np.random.default_rng(0)
+    A = rng.normal(size=(50, 3)) + 1e6
+    B = A[:4] + 1e-2
+    direct = np.sqrt(((A[:, None, :] - B) ** 2).sum(axis=-1))
+    assert np.allclose(FCM._euclidean(A, B), direct, atol=1e-9)
+
+
+def test_euclidean_is_exactly_zero_on_the_same_point():
+    """Test if a sample equal to a center is at distance zero"""
+    A = np.random.default_rng(1).normal(size=(20, 5))
+    d = FCM._euclidean(A, A[:3])
+    assert np.array_equal(d[[0, 1, 2], [0, 1, 2]], np.zeros(3))
