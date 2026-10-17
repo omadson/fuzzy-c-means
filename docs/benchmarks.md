@@ -28,16 +28,16 @@ FCM with $c=5$ clusters and $p=10$ features.
 
 | n | time (s) | peak memory (MB) |
 | --- | --- | --- |
-| 1,000 | 0.01 | 1 |
-| 10,000 | 0.08 | 5 |
-| 100,000 | 1.89 | 50 |
-| 500,000 | 7.82 | 248 |
+| 1,000 | 0.01 | 0 |
+| 10,000 | 0.10 | 2 |
+| 100,000 | 0.67 | 24 |
+| 500,000 | 5.88 | 118 |
 
-Both grow linearly with $n$. The peak is dominated by the
-$n \times c \times p$ array of differences that the distance computation
-builds, about $8ncp$ bytes (190 MB at $n=500{,}000$) plus the
-$n \times c$ partition matrix. The whole data set must fit in memory
-together with that array: there is no batch or out-of-core mode yet.
+Both grow linearly with $n$. The euclidean distance is computed with a
+matrix product, so the peak is a handful of $n \times c$ and $n \times p$
+arrays (about 6 times the $n \times c$ partition matrix here), not an
+$n \times c \times p$ array of differences. The whole data set must fit
+in memory together with them: there is no batch or out-of-core mode yet.
 
 ## Clusters and features
 
@@ -46,18 +46,17 @@ FCM with $n=20{,}000$.
 | c | p | time (s) | peak memory (MB) |
 | --- | --- | --- | --- |
 | 2 | 2 | 0.09 | 2 |
-| 2 | 10 | 0.25 | 4 |
-| 2 | 50 | 0.42 | 16 |
+| 2 | 10 | 0.13 | 4 |
+| 2 | 50 | 0.12 | 16 |
 | 5 | 2 | 0.13 | 5 |
-| 5 | 10 | 0.29 | 10 |
-| 5 | 50 | 0.59 | 40 |
-| 20 | 2 | 0.33 | 18 |
-| 20 | 10 | 0.74 | 40 |
-| 20 | 50 | 1.32 | 162 |
+| 5 | 10 | 0.16 | 5 |
+| 5 | 50 | 0.14 | 17 |
+| 20 | 2 | 0.29 | 18 |
+| 20 | 10 | 0.33 | 18 |
+| 20 | 50 | 0.23 | 22 |
 
-Memory is proportional to $c \cdot p$, as above. Time grows more slowly
-than $c \cdot p$ at small sizes, because part of the cost is fixed per
-iteration.
+Memory grows with $n(c+p)$, and time mostly with $c$: the matrix
+product that gives the distances makes the number of features cheap.
 
 ## Variants
 
@@ -65,16 +64,16 @@ All models on the same data: $n=2{,}000$, $c=5$, $p=10$.
 
 | model | time (s) | peak memory (MB) |
 | --- | --- | --- |
-| FCM | 0.03 | 1.0 |
-| PCM | 0.03 | 1.0 |
-| FPCM | 0.03 | 1.1 |
-| GK | 0.35 | 1.3 |
-| GG | 0.81 | 1.4 |
-| KFCM | 0.03 | 1.1 |
-| FCMedoids | 0.22 | 74.0 |
+| FCM | 0.02 | 0.6 |
+| PCM | 0.02 | 0.6 |
+| FPCM | 0.03 | 0.6 |
+| GK | 0.06 | 0.7 |
+| GG | 0.15 | 0.7 |
+| KFCM | 0.03 | 0.6 |
+| FCMedoids | 0.16 | 61.0 |
 
 - `PCM`, `FPCM` and `KFCM` cost about the same as `FCM`.
-- `GK` and `GG` are 10 to 30 times slower: each iteration builds and
+- `GK` and `GG` are 3 to 7 times slower: each iteration builds and
   inverts one $p \times p$ covariance matrix per cluster. The cost grows
   with $p^3$, so they are best kept to a moderate number of features.
 - `FCMedoids` stores the $n \times n$ distance matrix, so its memory grows
@@ -82,10 +81,10 @@ All models on the same data: $n=2{,}000$, $c=5$, $p=10$.
 
     | n | time (s) | peak memory (MB) | n² float64 (MB) |
     | --- | --- | --- | --- |
-    | 1,000 | 0.08 | 33 | 8 |
-    | 2,000 | 0.27 | 74 | 31 |
-    | 4,000 | 0.86 | 244 | 122 |
-    | 8,000 | 6.52 | 977 | 488 |
+    | 1,000 | 0.02 | 15 | 8 |
+    | 2,000 | 0.10 | 61 | 31 |
+    | 4,000 | 0.79 | 244 | 122 |
+    | 8,000 | 3.77 | 977 | 488 |
 
     The peak is about twice the matrix. Beyond a few thousand samples use
     another variant.
@@ -99,10 +98,10 @@ configuration.
 
 | init | n_init | mean objective | std | runs at the best optimum | time per fit (s) |
 | --- | --- | --- | --- | --- | --- |
-| random | 1 | 966.3 | 16.6 | 85% | 0.029 |
-| k-means++ | 1 | 967.5 | 17.6 | 82% | 0.028 |
-| random | 5 | 959.3 | 0.0 | 100% | 0.150 |
-| k-means++ | 5 | 959.3 | 0.0 | 100% | 0.225 |
+| random | 1 | 966.3 | 16.6 | 85% | 0.036 |
+| k-means++ | 1 | 967.5 | 17.6 | 82% | 0.033 |
+| random | 5 | 959.3 | 0.0 | 100% | 0.164 |
+| k-means++ | 5 | 959.3 | 0.0 | 100% | 0.177 |
 
 - `n_init` is what matters here: 5 restarts removed the bad optima in all
   40 seeds, at roughly 5 times the cost.
