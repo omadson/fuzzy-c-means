@@ -70,24 +70,28 @@ All models on the same data: $n=2{,}000$, $c=5$, $p=10$.
 | GK | 0.06 | 0.7 |
 | GG | 0.15 | 0.7 |
 | KFCM | 0.03 | 0.6 |
-| FCMedoids | 0.16 | 61.0 |
+| FCMedoids | 0.01 | 0.6 |
 
 - `PCM`, `FPCM` and `KFCM` cost about the same as `FCM`.
 - `GK` and `GG` are 3 to 7 times slower: each iteration builds and
   inverts one $p \times p$ covariance matrix per cluster. The cost grows
   with $p^3$, so they are best kept to a moderate number of features.
-- `FCMedoids` stores the $n \times n$ distance matrix, so its memory grows
-  with $n^2$ whatever $c$ and $p$ are:
+- `FCMedoids` with the default euclidean distance costs about the same as
+  `FCM`: each medoid is the sample closest to the weighted mean of its
+  cluster, so no pairwise distances are needed. Any other distance stores
+  the $n \times n$ matrix of squared distances, so its memory grows with
+  $n^2$ whatever $c$ and $p$ are:
 
-    | n | time (s) | peak memory (MB) | n² float64 (MB) |
-    | --- | --- | --- | --- |
-    | 1,000 | 0.02 | 15 | 8 |
-    | 2,000 | 0.10 | 61 | 31 |
-    | 4,000 | 0.79 | 244 | 122 |
-    | 8,000 | 3.77 | 977 | 488 |
+    | n | euclidean time (s) | euclidean memory (MB) | cosine time (s) | cosine memory (MB) | n² float64 (MB) |
+    | --- | --- | --- | --- | --- | --- |
+    | 1,000 | 0.00 | 0.3 | 0.01 | 12 | 8 |
+    | 2,000 | 0.00 | 0.6 | 0.03 | 38 | 31 |
+    | 4,000 | 0.01 | 1.3 | 0.28 | 138 | 122 |
+    | 8,000 | 0.01 | 2.3 | 1.98 | 520 | 488 |
 
-    The peak is about twice the matrix. Beyond a few thousand samples use
-    another variant.
+    The peak is a little over the matrix. With the euclidean distance
+    $n=100{,}000$ takes 0.22 s and 28 MB. With another distance, beyond a
+    few thousand samples use another variant.
 
 ## Initialization
 

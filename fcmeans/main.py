@@ -86,6 +86,10 @@ class FCM(BaseModel):
 
     def _seed_centers(self, X: NDArray) -> NDArray:
         """Pick `n_clusters` samples with the k-means++ rule."""
+        return X[self._seed_indices(X)]
+
+    def _seed_indices(self, X: NDArray) -> list:
+        """Indices of the `n_clusters` samples picked by k-means++."""
         n = X.shape[0]
         chosen = [self.rng.integers(n)]
         closest = self._sq_dist_to(X, chosen[0])
@@ -95,7 +99,7 @@ class FCM(BaseModel):
                 self.rng.choice(n, p=closest / total if total > 0 else None)
             )
             closest = np.minimum(closest, self._sq_dist_to(X, chosen[-1]))
-        return X[chosen]
+        return chosen
 
     def _sq_dist_to(self, X: NDArray, i: int) -> NDArray:
         """Squared distance from every sample to sample `i`."""
