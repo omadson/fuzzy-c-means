@@ -111,3 +111,18 @@ def test_random_state_reproducible():
     a.fit(X)
     b.fit(X)
     assert np.array_equal(a.medoid_indices, b.medoid_indices)
+
+
+def test_euclidean_closed_form_matches_pairwise_search():
+    """Test if the O(n) euclidean medoid update equals the n x n search"""
+
+    def euclidean(A, B, params):
+        """Euclidean distance as a callable, so the n x n path is used"""
+        return np.sqrt(((A[:, None, :] - B) ** 2).sum(axis=-1))
+
+    closed = FCMedoids(n_clusters=3, random_state=42)
+    closed.fit(X)
+    pairwise = FCMedoids(n_clusters=3, distance=euclidean, random_state=42)
+    pairwise.fit(X)
+    assert np.array_equal(closed.medoid_indices, pairwise.medoid_indices)
+    assert np.allclose(closed.u, pairwise.u)

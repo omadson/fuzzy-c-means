@@ -76,7 +76,7 @@ class KFCM(FCM):
 
     def _sq_dist(self, X: NDArray) -> NDArray:
         """Squared euclidean distance between samples and centers."""
-        return np.einsum("ijk->ij", (X[:, None, :] - self._centers) ** 2)
+        return FCM._sq_euclidean(X, self._centers)
 
     def _update_centers(self, X: NDArray) -> None:
         """Update `_centers` as kernel-weighted means."""

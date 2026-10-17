@@ -68,10 +68,15 @@ fcmd.fit(X)
   closest medoid already chosen (k-means++ seeding). The result can still be
   a poor local optimum. Fit with several `random_state` values and keep the
   best. In 50 runs on three well-separated blobs, 49 recovered all three.
-- **Memory and time.** The distances between all pairs of training samples
-  are computed once and dropped at the end of `fit`, so `fit` needs $O(n^2)$
-  memory and each iteration costs $O(c\,n^2)$. It is meant for data sets of a
-  few thousand samples.
+- **Memory and time.** With the default euclidean distance the cost of a
+  candidate is $\sum_j u_{ij}^m \lVert x_j - x_k\rVert^2 =
+  \lVert x_k - \bar{x}_i\rVert^2 \sum_j u_{ij}^m + \text{const}$, with
+  $\bar{x}_i$ the membership-weighted mean, so the medoid is the sample
+  closest to $\bar{x}_i$ and no pairwise distances are needed: $O(n)$
+  memory and $O(c\,n\,p)$ per iteration. Any other `distance` computes the
+  distances between all pairs of training samples once (dropped at the end
+  of `fit`), which needs $O(n^2)$ memory and $O(c\,n^2)$ per iteration, so it
+  is meant for data sets of a few thousand samples.
 - A sample that coincides with a medoid has distance zero, and belongs only to
   that cluster (split evenly if two medoids coincide). This is always the case
   for the medoids themselves, so `FCM.soft_predict` handles it.

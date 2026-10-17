@@ -16,7 +16,7 @@ from .main import FCM
 
 def _sq_dist(A: NDArray, B: NDArray) -> NDArray:
     """Squared euclidean distance between the rows of A and the rows of B."""
-    return FCM._euclidean(A, B) ** 2
+    return FCM._sq_euclidean(A, B)
 
 
 def _sq_center_dist(centers: NDArray) -> NDArray:

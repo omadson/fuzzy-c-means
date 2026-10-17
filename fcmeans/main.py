@@ -86,6 +86,10 @@ class FCM(BaseModel):
 
     def _seed_centers(self, X: NDArray) -> NDArray:
         """Pick `n_clusters` samples with the k-means++ rule."""
+        return X[self._seed_indices(X)]
+
+    def _seed_indices(self, X: NDArray) -> list:
+        """Indices of the `n_clusters` samples picked by k-means++."""
         n = X.shape[0]
         chosen = [self.rng.integers(n)]
         closest = self._sq_dist_to(X, chosen[0])
@@ -95,7 +99,7 @@ class FCM(BaseModel):
                 self.rng.choice(n, p=closest / total if total > 0 else None)
             )
             closest = np.minimum(closest, self._sq_dist_to(X, chosen[-1]))
-        return X[chosen]
+        return chosen
 
     def _sq_dist_to(self, X: NDArray, i: int) -> NDArray:
         """Squared distance from every sample to sample `i`."""
@@ -240,12 +244,29 @@ class FCM(BaseModel):
     @staticmethod
     def _euclidean(A: NDArray, B: NDArray) -> NDArray:
         """Compute the euclidean distance between two matrices"""
-        return np.sqrt(np.einsum("ijk->ij", (A[:, None, :] - B) ** 2))
+        return np.sqrt(FCM._sq_euclidean(A, B))
+
+    @staticmethod
+    def _sq_euclidean(A: NDArray, B: NDArray) -> NDArray:
+        """Compute the squared euclidean distance between two matrices"""
+        # |a|^2 + |b|^2 - 2ab: O(nc) memory and BLAS, not an n x c x p array
+        # (centered on B so a far-from-origin data set does not cancel out)
+        mu = B.mean(0)
+        A, B = A - mu, B - mu
+        a2 = np.einsum("ij,ij->i", A, A)[:, None]
+        sq = a2 + np.einsum("ij,ij->i", B, B) - 2 * (A @ B.T)
+        # the expansion leaves ~1e-16 where the true distance is 0; snap it
+        sq[sq <= 1e-12 * (1 + a2)] = 0
+        return sq
 
     @staticmethod
     def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
         """Compute the minkowski distance between two matrices"""
-        return np.einsum("ijk->ij", np.abs(A[:, None, :] - B) ** p) ** (1 / p)
+        # one center at a time: O(np) memory instead of an n x c x p array
+        d = np.empty((A.shape[0], B.shape[0]))
+        for j, b in enumerate(B):
+            d[:, j] = (np.abs(A - b) ** p).sum(axis=1)
+        return d ** (1 / p)
 
     @staticmethod
     def _cosine_similarity(A: NDArray, B: NDArray) -> NDArray:

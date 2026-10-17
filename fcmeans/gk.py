@@ -54,10 +54,12 @@ class GK(FCM):
 
     def _covariances(self, X: NDArray) -> NDArray:
         """Regularized fuzzy covariance matrix of each cluster."""
-        diff = X[:, None, :] - self._centers
         um = self.u**self.m
         p = X.shape[1]
-        F = np.einsum("nc,ncp,ncq->cpq", um, diff, diff)
+        F = np.empty((self.n_clusters, p, p))
+        for i, v in enumerate(self._centers):
+            d = X - v
+            F[i] = (um[:, i, None] * d).T @ d
         F /= um.sum(axis=0)[:, None, None]
         F += (
             self.reg * np.trace(F, axis1=1, axis2=2)[:, None, None] / p
@@ -77,9 +79,14 @@ class GK(FCM):
         scale = np.exp(logdet / p)[:, None, None]
         self.norm_matrices = scale * np.linalg.inv(F)
 
+    def _mahalanobis(self, X: NDArray, M: NDArray) -> NDArray:
+        """Squared distance of each sample to each center under `M[c]`."""
+        out = np.empty((X.shape[0], self.n_clusters))
+        for i, v in enumerate(self._centers):
+            d = X - v
+            out[:, i] = ((d @ M[i]) * d).sum(axis=1)
+        return out
+
     def _distances(self, X: NDArray) -> NDArray:
         """Distance from each sample to each center under its own norm."""
-        diff = X[:, None, :] - self._centers
-        return np.sqrt(
-            np.einsum("ncp,cpq,ncq->nc", diff, self.norm_matrices, diff)
-        )
+        return np.sqrt(self._mahalanobis(X, self.norm_matrices))

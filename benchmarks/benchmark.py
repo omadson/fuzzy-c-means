@@ -79,15 +79,36 @@ def variants():
 
 
 def medoids_n():
-    """FCMedoids builds an n x n distance matrix."""
-    print(f"### FCMedoids memory (c=5, p=10, {ITER} iterations)\n")
+    """FCMedoids: O(n) for euclidean, an n x n distance matrix otherwise."""
+    print(f"### FCMedoids (c=5, p=10, {ITER} iterations)\n")
     rows = []
     for n in (1_000, 2_000, 4_000, 8_000):
-        t, mem = measure(FCMedoids, make(n, 10), n_clusters=5)
+        X = make(n, 10)
+        t, mem = measure(FCMedoids, X, n_clusters=5)
+        tc, memc = measure(FCMedoids, X, n_clusters=5, distance="cosine")
         rows.append(
-            (f"{n:,}", f"{t:.2f}", f"{mem:.0f}", f"{n * n * 8 / 2**20:.0f}")
+            (
+                f"{n:,}",
+                f"{t:.2f}",
+                f"{mem:.1f}",
+                f"{tc:.2f}",
+                f"{memc:.0f}",
+                f"{n * n * 8 / 2**20:.0f}",
+            )
         )
-    table(["n", "time (s)", "peak memory (MB)", "n² float64 (MB)"], rows)
+    table(
+        [
+            "n",
+            "euclidean time (s)",
+            "euclidean memory (MB)",
+            "cosine time (s)",
+            "cosine memory (MB)",
+            "n² float64 (MB)",
+        ],
+        rows,
+    )
+    t, mem = measure(FCMedoids, make(100_000, 10), n_clusters=5)
+    print(f"Euclidean, n=100,000: {t:.2f} s, {mem:.0f} MB.\n")
 
 
 def objective(model, X):
