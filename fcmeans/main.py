@@ -258,7 +258,11 @@ class FCM(BaseModel):
     @staticmethod
     def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
         """Compute the minkowski distance between two matrices"""
-        return np.einsum("ijk->ij", np.abs(A[:, None, :] - B) ** p) ** (1 / p)
+        # one center at a time: O(np) memory instead of an n x c x p array
+        d = np.empty((A.shape[0], B.shape[0]))
+        for j, b in enumerate(B):
+            d[:, j] = (np.abs(A - b) ** p).sum(axis=1)
+        return d ** (1 / p)
 
     @staticmethod
     def _cosine_similarity(A: NDArray, B: NDArray) -> NDArray:
