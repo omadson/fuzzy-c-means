@@ -240,15 +240,20 @@ class FCM(BaseModel):
     @staticmethod
     def _euclidean(A: NDArray, B: NDArray) -> NDArray:
         """Compute the euclidean distance between two matrices"""
+        return np.sqrt(FCM._sq_euclidean(A, B))
+
+    @staticmethod
+    def _sq_euclidean(A: NDArray, B: NDArray) -> NDArray:
+        """Compute the squared euclidean distance between two matrices"""
         # |a|^2 + |b|^2 - 2ab: O(nc) memory and BLAS, not an n x c x p array
         # (centered on B so a far-from-origin data set does not cancel out)
         mu = B.mean(0)
         A, B = A - mu, B - mu
-        sq = (A**2).sum(1)[:, None] + (B**2).sum(1) - 2 * (A @ B.T)
-        d = np.sqrt(np.maximum(sq, 0))
-        # the expansion leaves ~1e-8 where the true distance is 0; snap it
-        d[sq <= 1e-12 * (1 + (A**2).sum(1)[:, None])] = 0
-        return d
+        a2 = (A**2).sum(1)[:, None]
+        sq = a2 + (B**2).sum(1) - 2 * (A @ B.T)
+        # the expansion leaves ~1e-16 where the true distance is 0; snap it
+        sq[sq <= 1e-12 * (1 + a2)] = 0
+        return sq
 
     @staticmethod
     def _minkowski(A: NDArray, B: NDArray, p: float) -> NDArray:
