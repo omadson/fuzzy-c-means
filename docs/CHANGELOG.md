@@ -1,6 +1,49 @@
 # CHANGELOG
 
 
+## v2.3.1 (2026-10-17)
+
+### Chores
+
+- Sync uv.lock with 2.3.0
+  ([`63c5809`](https://github.com/omadson/fuzzy-c-means/commit/63c58098575f51c0cbd9c89540b16353fa71a232))
+
+### Continuous Integration
+
+- Update uv.lock on release
+  ([`46db38d`](https://github.com/omadson/fuzzy-c-means/commit/46db38d348aab855bcbd733cd9d1ce69d6346a39))
+
+### Documentation
+
+- Refresh benchmarks after matmul distances
+  ([`cfdcad1`](https://github.com/omadson/fuzzy-c-means/commit/cfdcad1a7985395977c10f9c21b90029be24ce7b))
+
+### Performance Improvements
+
+- Avoid temporary arrays in squared euclidean distance
+  ([`b60596b`](https://github.com/omadson/fuzzy-c-means/commit/b60596b79ed75ef6e4b2c15ec768e5c56f507623))
+
+- Compute euclidean distance with matmul instead of n x c x p array
+  ([`a5314bd`](https://github.com/omadson/fuzzy-c-means/commit/a5314bd85fedb006682cd44ca7a3ba548a3bdccf))
+
+- Compute GK/GG covariances and distances per cluster with matmul
+  ([`6c2a7da`](https://github.com/omadson/fuzzy-c-means/commit/6c2a7dafffe88d5212e243d05b4b69428bdb01cb))
+
+- Compute KFCM squared distances with matmul
+  ([`861f027`](https://github.com/omadson/fuzzy-c-means/commit/861f0271c74c36f5f8181754d3dac1fa36ae8828))
+
+- Compute minkowski distance one center at a time
+  ([`ae3ac8b`](https://github.com/omadson/fuzzy-c-means/commit/ae3ac8b5ee766160e6730f70a7083aa93ca40ed5))
+
+- Find FCMedoids medoids in closed form for euclidean distance
+  ([`1704989`](https://github.com/omadson/fuzzy-c-means/commit/170498914a8ab625348e3729fa762d2dbbf93e93))
+
+### Testing
+
+- Cover matmul euclidean distance and closed-form medoids
+  ([`4786680`](https://github.com/omadson/fuzzy-c-means/commit/478668073d41b1e181b3f58704e6aae202fa2c55))
+
+
 ## v2.3.0 (2026-10-01)
 
 ### Documentation
