@@ -253,8 +253,8 @@ class FCM(BaseModel):
         # (centered on B so a far-from-origin data set does not cancel out)
         mu = B.mean(0)
         A, B = A - mu, B - mu
-        a2 = (A**2).sum(1)[:, None]
-        sq = a2 + (B**2).sum(1) - 2 * (A @ B.T)
+        a2 = np.einsum("ij,ij->i", A, A)[:, None]
+        sq = a2 + np.einsum("ij,ij->i", B, B) - 2 * (A @ B.T)
         # the expansion leaves ~1e-16 where the true distance is 0; snap it
         sq[sq <= 1e-12 * (1 + a2)] = 0
         return sq
